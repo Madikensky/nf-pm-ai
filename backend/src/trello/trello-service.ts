@@ -1,4 +1,5 @@
 import Trello from 'trello';
+import { TrelloBoard, TrelloCard, TrelloList } from './trello-model';
 
 class TrelloService {
   private trello: Trello;
@@ -10,12 +11,16 @@ class TrelloService {
     );
   }
 
-  async getBoards() {
-    return await this.trello.getBoards('me', (err, data) => {
+  async getBoards(): Promise<TrelloBoard[]> {
+    return await this.trello.getBoards('me', (err: Error, data: any) => {
       if (err) {
         throw new Error('Error getting boards');
       }
       return data;
     });
   }
+
+  // other functions...
 }
+
+export default TrelloService;

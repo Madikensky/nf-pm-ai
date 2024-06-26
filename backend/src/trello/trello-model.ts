@@ -15,3 +15,5 @@ interface TrelloCard {
   desc?: string;
   idList: string;
 }
+
+export { TrelloBoard, TrelloList, TrelloCard };
