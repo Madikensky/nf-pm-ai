@@ -69,7 +69,11 @@ export default function Home() {
               <div key={id}>
                 {' '}
                 <p className="answer">
-                  {e.role}:{' '}
+                  {e.role === 'user' ? (
+                    <span className="text-red-500">{e.role}: </span>
+                  ) : (
+                    <span className="text-green-500">{e.role}: </span>
+                  )}
                   {e.parts.map((item, id) => (
                     <Markdown key={id}>{item.text}</Markdown>
                   ))}
