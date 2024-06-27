@@ -33,11 +33,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
           if (err) {
             reject(err);
           }
-          resolve(
-            data.map((board) => {
-              return board.name;
-            })
-          );
+          resolve(data.map((board) => board.name));
         });
       });
 
