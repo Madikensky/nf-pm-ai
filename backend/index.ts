@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import Trello from 'trello';
 import { config } from 'dotenv';
 import { Request, Response } from 'express';
+import main from './trello.js';
 
 const PORT = 5000 || process.env.PORT;
 
@@ -27,27 +28,31 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const trello = new Trello(apiKey, token);
 
-    const getAllBoards = (): Promise<string[]> =>
-      new Promise((resolve, reject) => {
-        trello.getBoards('me', (err: Error, data) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(data.map((board) => board.name));
-        });
-      });
+    // const getAllBoards = (): Promise<string[]> =>
+    //   new Promise((resolve, reject) => {
+    //     trello.getBoards('me', (err: Error, data) => {
+    //       if (err) {
+    //         reject(err);
+    //       }
+    //       resolve(data.map((board) => board.name));
+    //     });
+    //   });
 
-    const boards = await getAllBoards();
+    // const boards = await getAllBoards();
+    const boards = await main();
 
     history.push({
       role: 'model',
       parts: [
         {
-          text: boards.join(', ') + ' ',
+          text:
+            'Вам предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используйте эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"' +
+            boards,
         },
       ],
     });
 
+    console.log(boards);
     const chat = model.startChat({ history });
     const sendPromptToGemini = await chat.sendMessage(userPrompt);
     const geminiAnswer = sendPromptToGemini.response.text();
