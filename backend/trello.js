@@ -83,6 +83,14 @@ async function main() {
   }
 }
 
-// main();
+// trello.addCard(
+//   'test_card2',
+//   'no description',
+//   '667acb0f9a6427b08e9f937f',
+//   (err, data) => {
+//     if (err) throw new Error('Err');
+//     console.log(data);
+//   }
+// );
 
 module.exports = main;

@@ -26,19 +26,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const apiKey = process.env.TRELLO_API as string;
     const token = process.env.TRELLO_AUTH_TOKEN as string;
 
-    const trello = new Trello(apiKey, token);
+    // const trello = new Trello(apiKey, token);
 
-    // const getAllBoards = (): Promise<string[]> =>
-    //   new Promise((resolve, reject) => {
-    //     trello.getBoards('me', (err: Error, data) => {
-    //       if (err) {
-    //         reject(err);
-    //       }
-    //       resolve(data.map((board) => board.name));
-    //     });
-    //   });
-
-    // const boards = await getAllBoards();
     const boards = await main();
 
     history.push({
@@ -52,10 +41,12 @@ app.post('/gemini', async (req: Request, res: Response) => {
       ],
     });
 
-    console.log(boards);
+    // console.log(boards);
     const chat = model.startChat({ history });
     const sendPromptToGemini = await chat.sendMessage(userPrompt);
     const geminiAnswer = sendPromptToGemini.response.text();
+    console.log(geminiAnswer);
+
     res.send(geminiAnswer);
   } catch (e) {
     res.status(500).send({ message: e });
