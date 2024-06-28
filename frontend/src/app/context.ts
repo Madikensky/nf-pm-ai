@@ -30,5 +30,35 @@ const context = `Ты - Project Manager AI, помощник по автомат
     "listName": "Дейлики",
     "boardName": "[Название выбранной доски]" 
   }
-}`;
+}
+  
+Если нужно создать несколько карточек, возвращай в формате вроде:
+"""json
+[
+  {
+    "action": "addCard",
+    "params": {
+      "name": "кард1",
+      "listName": "Done",
+      "boardName": "N!"
+    }
+  }
+  {
+    "action": "addCard",
+    "params": {
+      "name": "кард2",
+      "listName": "Done",
+      "boardName": "N!"
+    }
+  }
+  {
+    "action": "addCard",
+    "params": {
+      "name": "кард3",
+      "listName": "Done",
+      "boardName": "N!"
+    }
+  }
+]
+`;
 export default context;

@@ -18,6 +18,22 @@ config();
 
 const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
+const containsJSON = (s: string): string => {
+  if (s.includes('[') && s.includes(']') && s.includes('action')) {
+    const openBraceIndex = s.indexOf('[');
+    const closeBraceIndex = s.indexOf(']');
+    const ans = s.slice(openBraceIndex, closeBraceIndex + 1);
+    return ans;
+  } else if (s.includes('{') && s.includes('}') && s.includes('action')) {
+    const openBraceIndex = s.indexOf('{');
+    const closeBraceIndex = s.indexOf('}');
+    const ans = s.slice(openBraceIndex, closeBraceIndex + 1);
+    return ans;
+  } else {
+    return '';
+  }
+};
+
 app.post('/gemini', async (req: Request, res: Response) => {
   try {
     const model = genAi.getGenerativeModel({ model: 'gemini-1.5-pro' });
@@ -45,7 +61,13 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const chat = model.startChat({ history });
     const sendPromptToGemini = await chat.sendMessage(userPrompt);
     const geminiAnswer = sendPromptToGemini.response.text();
-    console.log(geminiAnswer);
+
+    const json = containsJSON(geminiAnswer);
+    if (json) {
+      console.log(json);
+    } else {
+      console.log('no');
+    }
 
     res.send(geminiAnswer);
   } catch (e) {
