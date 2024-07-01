@@ -52,6 +52,9 @@ export default function Home() {
 
   return (
     <div className="app">
+      {/* <div>
+
+    </div> */}
       <p>Что вы хотите создать в Trello сегодня?</p>
       <div className="input-container">
         <input

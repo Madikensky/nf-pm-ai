@@ -21,12 +21,12 @@ const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 const containsJSON = (s: string): string => {
   if (s.includes('[') && s.includes(']') && s.includes('action')) {
     const openBraceIndex = s.indexOf('[');
-    const closeBraceIndex = s.indexOf(']');
+    const closeBraceIndex = s.lastIndexOf(']');
     const ans = s.slice(openBraceIndex, closeBraceIndex + 1);
     return ans;
   } else if (s.includes('{') && s.includes('}') && s.includes('action')) {
     const openBraceIndex = s.indexOf('{');
-    const closeBraceIndex = s.indexOf('}');
+    const closeBraceIndex = s.lastIndexOf('}');
     const ans = s.slice(openBraceIndex, closeBraceIndex + 1);
     return ans;
   } else {
@@ -42,7 +42,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const apiKey = process.env.TRELLO_API as string;
     const token = process.env.TRELLO_AUTH_TOKEN as string;
 
-    // const trello = new Trello(apiKey, token);
+    const trello = new Trello(apiKey, token);
 
     const boards = await main();
 
@@ -64,12 +64,42 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const json = containsJSON(geminiAnswer);
     if (json) {
-      console.log(json);
+      const data = JSON.parse(json);
+      data.map((task: any) => {
+        console.log(task, '\n');
+
+        if (task.action === 'addCard') {
+          const { name, desc, listName, boardName } = task.params;
+          const currBoards = JSON.parse(boards);
+          currBoards.map((board: any) => {
+            if (board.name === boardName) {
+              const list = board.lists.find(
+                (list: any) => list.name === listName
+              );
+              // console.log(list);
+
+              const listId = list.id;
+
+              trello.addCard(name, desc, listId, (err: any, data: any) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  res.send(
+                    "Card has been added to the list '" + listName + "'"
+                  );
+                  // console.log(data);
+                }
+              });
+            }
+          });
+        }
+      });
     } else {
       console.log('no');
+      res.send(geminiAnswer);
     }
 
-    res.send(geminiAnswer);
+    // res.send(geminiAnswer);
   } catch (e) {
     res.status(500).send({ message: e });
   }
