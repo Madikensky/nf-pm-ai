@@ -27,6 +27,8 @@ export default function Home() {
     try {
       const response = await axios.post('http://localhost:5000/gemini', {
         userPrompt: value,
+        apiKey: trelloToken,
+        token: trelloAuth,
         history: chatHistory,
       });
 
@@ -44,18 +46,65 @@ export default function Home() {
         },
       ]);
       setValue('');
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
-      setError('Что-то пошло не так. Пожалуйста, попробуйте еще раз.');
+      // setError('Что-то пошло не так. Пожалуйста, попробуйте еще раз.');
+      setError(e);
     }
+  };
+
+  const [trelloToken, setTrelloToken] = useState('');
+  const [trelloAuth, setTrelloAuth] = useState('');
+
+  const submitTokens = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    localStorage.setItem('TrelloToken', trelloToken);
+    localStorage.setItem('AuthToken', trelloAuth);
+
+    axios
+      .post('http://localhost:5000/token_login', {
+        trelloToken,
+        authToken: trelloAuth,
+      })
+      .then((e) => console.log(e.data));
+
+    // здесь потом проверять, существую токены или нет путем отправки гет запроса с этими токенами
+
+    console.log(trelloToken);
+    console.log(trelloAuth);
   };
 
   return (
     <div className="app">
-      {/* <div>
-
-    </div> */}
-      <p>Что вы хотите создать в Trello сегодня?</p>
+      <form className="flex flex-col gap-3" onSubmit={submitTokens}>
+        <div className="flex gap-5 items-center">
+          <label htmlFor="trelloAPI">Trello API Token</label>
+          <input
+            type="text"
+            id="trelloAPI"
+            className="border-2 w-1/2 outline-none p-1 rounded border-blue-950"
+            required
+            value={trelloToken}
+            onChange={(e) => setTrelloToken(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-5 items-center">
+          <label htmlFor="trelloAUTH">Trello Auth Token</label>
+          <input
+            type="text"
+            id="trelloAUTH"
+            className="border-2 w-1/2 outline-none p-1 rounded border-blue-950"
+            required
+            value={trelloAuth}
+            onChange={(e) => setTrelloAuth(e.target.value)}
+          />
+        </div>
+        <button className="w-1/4 bg-blue-950 text-white rounded" type="submit">
+          Save
+        </button>
+      </form>
+      <p className="mt-20">Что вы хотите создать в Trello сегодня?</p>
       <div className="input-container">
         <input
           value={value}
