@@ -173,27 +173,32 @@ app.post('/gemini', async (req: Request, res: Response) => {
     // console.log(boards);
     const chat = model.startChat({ history });
     const sendPromptToGemini = await chat.sendMessage(userPrompt);
-    const geminiAnswer = sendPromptToGemini.response.text();
+    let geminiAnswer = sendPromptToGemini.response.text();
 
     const json = containsJSON(geminiAnswer);
+
     if (json) {
       const data = JSON.parse(json);
+
       data.map((task: any) => {
-        console.log(task, '\n');
+        // console.log(task, '\n');
 
         if (task.action === 'addCard') {
           const { name, desc, listName, boardName, due, start, members } =
             task.params;
 
           const currBoards = JSON.parse(boards!); // Additional check to handle undefined
+
           currBoards.map((board: any) => {
             if (board.name === boardName) {
               const list = board.lists.find(
                 (list: any) => list.name === listName
               );
 
+              console.log(board);
+
               const listId = list.id;
-              console.log(listId, '\n');
+              // console.log(listId, '\n');
 
               const queryParam = {
                 name,
@@ -212,23 +217,29 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 }
               }
 
-              // res.send('Created!');
-              console.log(queryParam);
+              // console.log(queryParam);
 
               axios
                 .post('https://api.trello.com/1/cards', null, {
                   params: queryParam,
                 })
-                .then((e) => console.log(e.data))
+                .then((e) => {
+                  // console.log(e.data);
+                  return e.data;
+                })
                 .catch((e) => console.log(e));
             }
           });
         }
+        geminiAnswer =
+          'Запрос был обработан успешно. Хотите сделать что-то еще?';
       });
     } else {
       console.log('no');
-      // res.send(geminiAnswer);
     }
+
+    console.log(json);
+    // console.log(geminiAnswer);
 
     res.send(geminiAnswer);
   } catch (e) {
