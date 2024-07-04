@@ -5,12 +5,12 @@ import axios from 'axios';
 import './token.scss';
 import { TokenFormProps } from '@/app/models/page';
 
-const TokenForm: React.FC<TokenFormProps> = ({
+const TokenForm = ({
   setTrelloAuth,
   setTrelloToken,
   setShowElement,
   setIsLoading,
-}) => {
+}: TokenFormProps) => {
   const [trelloToken, setTrelloTokenLocal] = useState('');
   const [trelloAuth, setTrelloAuthLocal] = useState('');
 
