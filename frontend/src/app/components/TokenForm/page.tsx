@@ -5,7 +5,7 @@ import axios from 'axios';
 import './token.scss';
 import { TokenFormProps } from '@/app/models/page';
 
-const TokenForm = ({
+const TokenForm: React.FC<TokenFormProps> = ({
   setTrelloAuth,
   setTrelloToken,
   setShowElement,
