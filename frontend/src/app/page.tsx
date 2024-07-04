@@ -25,12 +25,15 @@ export default function Home() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/gemini', {
-        userPrompt: value,
-        apiKey: trelloToken,
-        token: trelloAuth,
-        history: chatHistory,
-      });
+      const response = await axios.post(
+        'https://nf-pm-ai.onrender.com/gemini',
+        {
+          userPrompt: value,
+          apiKey: trelloToken,
+          token: trelloAuth,
+          history: chatHistory,
+        }
+      );
 
       console.log(response);
       const data = response.data;
@@ -63,7 +66,7 @@ export default function Home() {
     localStorage.setItem('AuthToken', trelloAuth);
 
     axios
-      .post('http://localhost:5000/token_login', {
+      .post('https://nf-pm-ai.onrender.com/token_login', {
         trelloToken,
         authToken: trelloAuth,
       })
