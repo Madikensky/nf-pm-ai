@@ -1,13 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import context from './context';
 import axios from 'axios';
 import Markdown from 'react-markdown';
+import TokenForm from './components/TokenForm/page';
 
 export default function Home() {
+  const [trelloToken, setTrelloToken] = useState('');
+  const [trelloAuth, setTrelloAuth] = useState('');
+  const [showElement, setShowElement] = useState(true);
   const [error, setError] = useState('');
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState([
     {
       role: 'user',
@@ -25,17 +30,22 @@ export default function Home() {
       return;
     }
     try {
+      const savedTrelloToken = localStorage.getItem('TrelloToken');
+      const savedTrelloAuth = localStorage.getItem('AuthToken');
+      setIsLoading(true);
+
       const response = await axios.post(
         'https://nf-pm-ai.onrender.com/gemini',
         {
           userPrompt: value,
-          apiKey: trelloToken,
-          token: trelloAuth,
+          apiKey: savedTrelloToken ? savedTrelloToken : trelloToken,
+          token: savedTrelloAuth ? savedTrelloAuth : trelloAuth,
           history: chatHistory,
         }
       );
 
       console.log(response);
+
       const data = response.data;
       setChatHistory((oldChatHistory) => [
         ...oldChatHistory,
@@ -49,94 +59,59 @@ export default function Home() {
         },
       ]);
       setValue('');
+      setIsLoading(false);
     } catch (e: any) {
       console.log(e);
-      // setError('Что-то пошло не так. Пожалуйста, попробуйте еще раз.');
       setError(e);
     }
   };
 
-  const [trelloToken, setTrelloToken] = useState('');
-  const [trelloAuth, setTrelloAuth] = useState('');
-
-  const submitTokens = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    localStorage.setItem('TrelloToken', trelloToken);
-    localStorage.setItem('AuthToken', trelloAuth);
-
-    axios
-      .post('https://nf-pm-ai.onrender.com/token_login', {
-        trelloToken,
-        authToken: trelloAuth,
-      })
-      .then((e) => console.log(e.data));
-
-    // здесь потом проверять, существую токены или нет путем отправки гет запроса с этими токенами
-
-    console.log(trelloToken);
-    console.log(trelloAuth);
-  };
-
   return (
-    <div className="app">
-      <form className="flex flex-col gap-3" onSubmit={submitTokens}>
-        <div className="flex gap-5 items-center">
-          <label htmlFor="trelloAPI">Trello API Token</label>
-          <input
-            type="text"
-            id="trelloAPI"
-            className="border-2 w-1/2 outline-none p-1 rounded border-blue-950"
-            required
-            value={trelloToken}
-            onChange={(e) => setTrelloToken(e.target.value)}
+    <>
+      <div className="app border-2 flex items-center justify-center h-screen flex-col">
+        {showElement ? (
+          <TokenForm
+            setTrelloAuth={setTrelloAuth}
+            setShowElement={setShowElement}
+            setTrelloToken={setTrelloToken}
+            setIsLoading={setIsLoading}
           />
-        </div>
-        <div className="flex gap-5 items-center">
-          <label htmlFor="trelloAUTH">Trello Auth Token</label>
-          <input
-            type="text"
-            id="trelloAUTH"
-            className="border-2 w-1/2 outline-none p-1 rounded border-blue-950"
-            required
-            value={trelloAuth}
-            onChange={(e) => setTrelloAuth(e.target.value)}
-          />
-        </div>
-        <button className="w-1/4 bg-blue-950 text-white rounded" type="submit">
-          Save
-        </button>
-      </form>
-      <p className="mt-20">Что вы хотите создать в Trello сегодня?</p>
-      <div className="input-container">
-        <input
-          value={value}
-          placeholder="Создай мне карточку с названием 'Тестовая карточка...'"
-          onChange={(e) => setValue(e.target.value)}
-        ></input>
-        {!error && <button onClick={getGeminiResponse}>Ask me</button>}
-      </div>
-      {error && <p>{error}</p>}
-      <div className="search-result">
-        {chatHistory.map(
-          (e, id) =>
-            id !== 0 && (
-              <div key={id}>
-                {' '}
-                <p className="answer">
-                  {e.role === 'user' ? (
-                    <span className="text-red-500">{e.role}: </span>
-                  ) : (
-                    <span className="text-green-500">{e.role}: </span>
-                  )}
-                  {e.parts.map((item, id) => (
-                    <Markdown key={id}>{item.text}</Markdown>
-                  ))}
-                </p>
-              </div>
-            )
+        ) : (
+          <div className="w-full h-screen p-5">
+            <p className="mt-20">Что вы хотите создать в Trello сегодня?</p>
+            <div className="input-container">
+              <input
+                value={value}
+                placeholder="Создай мне карточку с названием 'Тестовая карточка...'"
+                onChange={(e) => setValue(e.target.value)}
+              ></input>
+              {!error && <button onClick={getGeminiResponse}>Send</button>}
+            </div>
+            {error && <p>{error}</p>}
+            <div className="search-result">
+              {chatHistory.map(
+                (e, id) =>
+                  id !== 0 && (
+                    <div key={id}>
+                      {' '}
+                      <p className="answer">
+                        {e.role === 'user' ? (
+                          <span className="text-red-500">{e.role}: </span>
+                        ) : (
+                          <span className="text-green-500">{e.role}: </span>
+                        )}
+                        {e.parts.map((item, id) => (
+                          <Markdown key={id}>{item.text}</Markdown>
+                        ))}
+                      </p>
+                    </div>
+                  )
+              )}
+            </div>
+          </div>
         )}
       </div>
-    </div>
+      {isLoading && <div className="loader">Loading...</div>}
+    </>
   );
 }
