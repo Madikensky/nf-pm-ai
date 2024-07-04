@@ -12,12 +12,12 @@ export interface TokenFormProps {
   setIsLoading: (loading: boolean) => void;
 }
 
-const TokenForm = ({
+export default function TokenForm({
   setTrelloAuth,
   setTrelloToken,
   setShowElement,
   setIsLoading,
-}: TokenFormProps) => {
+}: TokenFormProps) {
   const [trelloToken, setTrelloTokenLocal] = useState('');
   const [trelloAuth, setTrelloAuthLocal] = useState('');
 
@@ -96,6 +96,4 @@ const TokenForm = ({
       </button>
     </form>
   );
-};
-
-export default TokenForm;
+}
