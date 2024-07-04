@@ -97,4 +97,4 @@ const TokenForm: React.FC<TokenFormProps> = ({
   );
 };
 
-export default TokenForm;
+export { TokenForm };

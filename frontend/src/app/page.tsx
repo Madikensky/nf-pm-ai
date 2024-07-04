@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import context from './context';
 import axios from 'axios';
 import Markdown from 'react-markdown';
-import TokenForm from './components/TokenForm/page';
+import { TokenForm } from './components/TokenForm/page';
 
 export default function Home() {
   const [trelloToken, setTrelloToken] = useState('');
