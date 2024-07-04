@@ -3,13 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './token.scss';
-
-export interface TokenFormProps {
-  setTrelloToken: (token: string) => void;
-  setTrelloAuth: (auth: string) => void;
-  setShowElement: (show: boolean) => void;
-  setIsLoading: (loading: boolean) => void;
-}
+import { TokenFormProps } from '@/app/models/page';
 
 const TokenForm: React.FC<TokenFormProps> = ({
   setTrelloAuth,
@@ -97,4 +91,4 @@ const TokenForm: React.FC<TokenFormProps> = ({
   );
 };
 
-export { TokenForm };
+export default TokenForm;
