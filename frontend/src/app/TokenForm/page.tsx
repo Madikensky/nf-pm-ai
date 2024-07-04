@@ -58,42 +58,43 @@ export default function TokenForm({
     // console.log(trelloAuth);
   };
   return (
-    <form
-      className="flex flex-col gap-5 border-blue-950 border-2 w-1/3 h-1/2 rounded items-center justify-center"
-      onSubmit={submitTokens}
-    >
-      <div className="flex flex-col w-1/2 gap-2">
-        <label htmlFor="trelloAPI">Trello API Token </label>
-        <input
-          type="text"
-          id="trelloAPI"
-          className="border-2 w-full outline-none p-1 rounded border-blue-950"
-          required
-          value={trelloToken}
-          onChange={(e) => setTrelloTokenLocal(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col w-1/2 gap-2">
-        <label htmlFor="trelloAUTH">Trello Auth Token</label>
-        <input
-          type="text"
-          id="trelloAUTH"
-          className="border-2 w-full outline-none p-1 rounded border-blue-950"
-          required
-          value={trelloAuth}
-          onChange={(e) => setTrelloAuthLocal(e.target.value)}
-        />
-      </div>
-      <a
-        href="https://docs.google.com/document/d/1qsmaFBXlkPrt2W9G1nZ9hKX1ODHF-O7oGQfVBN0XnFI/edit?usp=sharing"
-        className="text-blue-700"
-        target="_blank"
-      >
-        Где я могу получить оба токена?
-      </a>
-      <button className="w-1/4 bg-blue-950 text-white rounded" type="submit">
-        Save
-      </button>
-    </form>
+    <div>SSS</div>
+    // <form
+    //   className="flex flex-col gap-5 border-blue-950 border-2 w-1/3 h-1/2 rounded items-center justify-center"
+    //   onSubmit={submitTokens}
+    // >
+    //   <div className="flex flex-col w-1/2 gap-2">
+    //     <label htmlFor="trelloAPI">Trello API Token </label>
+    //     <input
+    //       type="text"
+    //       id="trelloAPI"
+    //       className="border-2 w-full outline-none p-1 rounded border-blue-950"
+    //       required
+    //       value={trelloToken}
+    //       onChange={(e) => setTrelloTokenLocal(e.target.value)}
+    //     />
+    //   </div>
+    //   <div className="flex flex-col w-1/2 gap-2">
+    //     <label htmlFor="trelloAUTH">Trello Auth Token</label>
+    //     <input
+    //       type="text"
+    //       id="trelloAUTH"
+    //       className="border-2 w-full outline-none p-1 rounded border-blue-950"
+    //       required
+    //       value={trelloAuth}
+    //       onChange={(e) => setTrelloAuthLocal(e.target.value)}
+    //     />
+    //   </div>
+    //   <a
+    //     href="https://docs.google.com/document/d/1qsmaFBXlkPrt2W9G1nZ9hKX1ODHF-O7oGQfVBN0XnFI/edit?usp=sharing"
+    //     className="text-blue-700"
+    //     target="_blank"
+    //   >
+    //     Где я могу получить оба токена?
+    //   </a>
+    //   <button className="w-1/4 bg-blue-950 text-white rounded" type="submit">
+    //     Save
+    //   </button>
+    // </form>
   );
 }
