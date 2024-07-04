@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './token.scss';
+// import './token.scss';
 // import { TokenFormProps } from '@/app/models/page';
 
 export interface TokenFormProps {
