@@ -21,6 +21,9 @@ const config: Config = {
         default: '24px',
         smaller: '20px',
       },
+      backgroundColor: {
+        'gray-bg': '#EEEEEE',
+      },
     },
   },
   plugins: [],
