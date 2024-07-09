@@ -1,8 +1,17 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import {
+  GoogleGenerativeAI,
+  HarmBlockThreshold,
+  HarmCategory,
+} from '@google/generative-ai';
 import Trello from 'trello';
 import { config } from 'dotenv';
 import { Request, Response } from 'express';
 import axios from 'axios';
+import { HfInference } from '@huggingface/inference';
+import formidable from 'formidable';
+
+const fs = require('fs');
+const path = require('path');
 
 interface Card {
   name: string;
@@ -51,6 +60,35 @@ const containsJSON = (s: string): string => {
   }
 };
 
+app.post('/post_audio', (req: Request, res: Response) => {
+  const hf = new HfInference('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');
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      res.status(500).json({ error: 'Error parsing the file' });
+      return;
+    }
+
+    const audioFilePath = files.audio.filepath;
+
+    try {
+      const audio = fs.readFileSync(audioFilePath);
+
+      const result = await hf.automaticSpeechRecognition({
+        model: 'openai/whisper-large-v3',
+        data: audio,
+      });
+
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error processing the audio' });
+    } finally {
+      fs.unlinkSync(audioFilePath); // Clean up the uploaded file
+    }
+  });
+});
+
 app.post('/token_login', (req: Request, res: Response) => {
   const { trelloToken, authToken } = req.body;
 
@@ -63,7 +101,9 @@ app.post('/token_login', (req: Request, res: Response) => {
 
 app.post('/gemini', async (req: Request, res: Response) => {
   try {
-    const model = genAi.getGenerativeModel({ model: 'gemini-1.5-pro' });
+    const model = genAi.getGenerativeModel({
+      model: 'gemini-1.5-pro',
+    });
     const { userPrompt, apiKey, token, history } = req.body;
 
     console.log(apiKey, '\n', token);
@@ -243,7 +283,10 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     res.send(geminiAnswer);
   } catch (e) {
-    res.status(500).send({ message: e });
+    console.log('request:', req.body);
+    res.status(500).send({
+      message: 'Возникла ошибка на сервере. Попробуйте изменить свой запрос',
+    });
   }
 });
 

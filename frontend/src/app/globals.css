@@ -7,10 +7,7 @@ body {
   padding: 0;
 }
 
-p {
-  font-weight: 200;
-  font-size: 16px;
-}
+
 
 .loader {
   display: flex;
@@ -49,6 +46,18 @@ p {
   border-radius: 6px;
   box-shadow: rgba(0, 0, 82, 0.15) 0 2px 4px;
   overflow: hidden;
+  /* border: 4px solid blue; */
+  display: flex;
+  & div {
+    /* border: 2px solid red; */
+    border-left: 2px solid #cacaca;
+    padding: 5px;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
 }
 
 .input-container input {
@@ -68,9 +77,9 @@ p {
 .input-container button {
   min-width: 10%;
   border: none;
-  border-left: 1px solid #cacaca;
+  /* border-left: 1px solid #cacaca; */
   background-color: #fff;
-  color: #777;
+  /* color: #777; */
   font-weight: bold;
   cursor: pointer;
 }
@@ -87,4 +96,15 @@ p {
   font-size: 15px;
   font-weight: 200;
   border-radius: 6px;
+}
+
+
+.header-text {
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+header {
+  background-color: #242D3C;
 }
