@@ -99,16 +99,13 @@ body {
 }
 
 
-/* .header-text {
-  color: white;
-  font-size: 24px;
-  font-weight: 500;
-} */
-
 header {
   background-color: #242D3C;
 }
 
-.faq-answer {
-  transition: 1s;
+@media (max-width: 500px) {
+  header {
+    /* padding: 0px 40px; */
+    /* background-color: red; */
+  }
 }

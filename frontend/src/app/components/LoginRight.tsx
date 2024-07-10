@@ -3,7 +3,7 @@ import LoginRightSubHeading from './LoginRightSubHeading';
 
 export default function LoginRight() {
   return (
-    <div className="login-right flex w-1/2  bg-gray-bg p-10 flex-col gap-10 mt-10">
+    <div className="login-right flex w-1/2  bg-gray-bg p-20 flex-col gap-10 mt-10">
       <div className="flex flex-col gap-5">
         <LoginRightHeading
           title="Какова цель использования этих двух токенов?"
