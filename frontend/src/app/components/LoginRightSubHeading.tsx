@@ -8,9 +8,11 @@ export default function LoginRightSubHeading({
   subtitle,
 }: RightSubheadingProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-xl text-main-color font-semibold">{title}</h2>
-      <p className="text-sm">
+    <div className="flex flex-col gap-2 w-full break-words">
+      <h2 className="text-sm sm:text-lg lg:text-xl text-main-color font-semibold w-full">
+        {title}
+      </h2>
+      <p className="text-xs sm:text-sm  w-full">
         {subtitle.map((str, idx) =>
           str.content === '<br>' ? (
             <br key={idx} />

@@ -3,7 +3,7 @@ import LoginRightSubHeading from './LoginRightSubHeading';
 
 export default function LoginRight() {
   return (
-    <div className="login-right flex w-1/2  bg-gray-bg p-20 flex-col gap-10 mt-10">
+    <div className="login-right flex sm:w-1/2 w-full bg-gray-bg p-20 flex-col gap-10 mt-10">
       <div className="flex flex-col gap-5">
         <LoginRightHeading
           title="Какова цель использования этих двух токенов?"
@@ -15,7 +15,7 @@ export default function LoginRight() {
           subtitle="Следуйте инструкциям ниже для того чтобы получить необходимые Trello API токены:"
         />
       </div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-10 sm:gap-5">
         <LoginRightSubHeading
           title="Шаг 1: Войдите в Trello"
           subtitle={[

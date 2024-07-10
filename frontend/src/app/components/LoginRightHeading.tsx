@@ -9,8 +9,10 @@ export default function LoginRightHeading({
 }: LoginRightHeadingProps) {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-main-color text-3xl font-semibold">{title}</h1>
-      <p className="text-gray-color text-sm">{subtitle}</p>
+      <h1 className="text-main-color lg:text-2xl  text-xl font-semibold">
+        {title}
+      </h1>
+      <p className="text-gray-color text-xs sm:text-sm">{subtitle}</p>
     </div>
   );
 }

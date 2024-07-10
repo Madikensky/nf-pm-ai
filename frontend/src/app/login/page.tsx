@@ -7,7 +7,7 @@ export default function Login() {
   return (
     <div className="">
       <Header showLogin={false} />
-      <div className="flex flex-row">
+      <div className="flex flex-col sm:flex-row mt-20 sm:mt-0">
         <LoginLeft />
         <LoginRight />
       </div>

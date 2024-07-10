@@ -42,18 +42,20 @@ export default function LoginLeft() {
 
   return (
     <form
-      className="login-left flex w-1/2 border-red-600 items-center justify-center"
+      className="login-left flex sm:w-1/2 w-full border-red-600 items-center justify-center "
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-10  border-blue-600 items-center p-10">
-        <p className="text-main-color text-default font-semibold">Вход</p>
-        <p className="text-gray-color font-semibold text-lg text-center">
+        <p className="text-main-color sm:text-lg lg:text-2xl font-semibold text-xl">
+          Вход
+        </p>
+        <p className="text-gray-color font-semibold sm:text-sm lg:text-lg text-center">
           Введите свой Trello API Token и Trello Auth Token для входа в свою
           учетную запись
         </p>
         <InputField tokenType="Trello API Token" setToken={setTrelloToken} />
         <InputField tokenType="Trello Auth Token" setToken={setTrelloAuth} />
-        <button className="text-white font-medium text-smaller bg-main-color p-2 rounded-md w-1/4">
+        <button className="text-white font-medium lg:text-smaller sm:text-sm bg-main-color p-2 rounded-md w-full sm:w-1/2 lg:w-1/4">
           Войти
         </button>
         {error && <p className="text-red-600 text-lg">{error}</p>}
