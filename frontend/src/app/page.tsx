@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-10 sm:gap-20">
       <Header showLogin={true} onClick={handleLogin} />
-      <div className="flex flex-col gap-20  mt-20 sm:mt-48 sm:flex-row sm:gap-5 border-blue-800 p-5">
+      <div className="flex flex-col gap-20  mt-20 sm:mt-48 sm:flex-row sm:gap-5 border-blue-800 p-10">
         <div className="flex flex-col gap-10 w-full sm:w-1/2 justify-center">
           <p className="font-semibold sm:text-sm md:text-xl lg:text-3xl text-start">
             Taskify.ai - Ваш персональный помощник на платформе&nbsp;
