@@ -108,3 +108,7 @@ body {
 header {
   background-color: #242D3C;
 }
+
+.faq-answer {
+  transition: 1s;
+}

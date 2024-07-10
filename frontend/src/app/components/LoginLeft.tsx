@@ -33,7 +33,7 @@ export default function LoginLeft() {
       localStorage.setItem('trelloToken', apiKey);
       localStorage.setItem('trelloAuth', apiToken);
 
-      router.push('/');
+      router.push('/main');
     } catch (e) {
       console.log(e);
       setError('Неверный Trello API Token или Trello');

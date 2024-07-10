@@ -12,7 +12,7 @@ export default function Footer() {
         <SocialLink href="https://t.me/madikensky" src="./Telegram App.svg" />
       </div>
       <p className="text-gray-400 text-sm">
-        Copyright © 2024 Taskify.ai. All rights reserved.
+        Copyright © 2024 Taskify.AI. All rights reserved.
       </p>
     </footer>
   );

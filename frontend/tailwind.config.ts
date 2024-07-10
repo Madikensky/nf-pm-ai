@@ -23,6 +23,7 @@ const config: Config = {
       },
       backgroundColor: {
         'gray-bg': '#EEEEEE',
+        test: '#3D4D66',
       },
     },
   },

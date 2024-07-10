@@ -1,13 +1,32 @@
+'use client';
+
 import React from 'react';
 import Header from './components/Header';
 import Image from 'next/image';
 import FaqContainer from './components/FaqContainer';
 import Footer from './components/Footer';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const trelloToken = localStorage.getItem('trelloToken');
+    const trelloAuth = localStorage.getItem('trelloAuth');
+
+    if (trelloToken && trelloAuth) {
+      router.push('/main');
+    }
+  }, []);
+
+  const handleLogin = () => {
+    router.push('/login');
+  };
+
   return (
     <div className="flex flex-col gap-20">
-      <Header showLogin={false} />
+      <Header showLogin={true} onClick={handleLogin} />
       <div className="flex flex-col gap-10 mt-48  border-blue-800 ">
         <div className="flex flex-row items-center justify-center text-center">
           <p className="font-semibold text-2xl text-main-color">
@@ -23,7 +42,9 @@ export default function Home() {
       </div>
       <div className="flex items-center justify-center">
         <div className="border-2 flex gap-2 py-3 px-4 rounded-lg border-black cursor-pointer bg-main-color">
-          <span className="font-medium text-white">Попробовать сейчас</span>
+          <span className="font-medium text-white" onClick={handleLogin}>
+            Попробовать сейчас
+          </span>
           <Image src="./Vector.svg" width={15} height={15} alt="arrow" />
         </div>
       </div>
