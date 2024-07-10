@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 export default function Home() {
   return (
     <div className="flex flex-col gap-20">
-      <Header showLogin={true} />
+      <Header showLogin={false} />
       <div className="flex flex-col gap-10 mt-48  border-blue-800 ">
         <div className="flex flex-row items-center justify-center text-center">
           <p className="font-semibold text-2xl text-main-color">
