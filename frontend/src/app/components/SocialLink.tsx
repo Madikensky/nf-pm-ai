@@ -9,7 +9,13 @@ interface SocialLinkProps {
 export default function SocialLink({ href, src }: SocialLinkProps) {
   return (
     <Link href={href} target="_blank">
-      <Image src={src} width={45} height={45} alt="logo" />{' '}
+      <Image
+        src={src}
+        width={0}
+        height={0}
+        className="w-8 h-8 sm:w-11 sm:h-11"
+        alt="logo"
+      />{' '}
     </Link>
   );
 }

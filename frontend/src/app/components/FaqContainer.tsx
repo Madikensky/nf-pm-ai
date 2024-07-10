@@ -42,9 +42,9 @@ export default function FaqContainer() {
   ];
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center py-20 bg-gray-300">
       <div className="w-2/3 flex flex-col gap-10">
-        <p className="text-main-color text-3xl font-semibold">
+        <p className="text-main-color sm:text-xl md:text-2xl lg:text-3xl font-semibold">
           Часто задаваемые вопросы (FAQ)
         </p>
         <FaqList faqItems={faqItems} />

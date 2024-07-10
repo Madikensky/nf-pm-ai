@@ -11,7 +11,7 @@ export default function Footer() {
         <SocialLink href="https://github.com/Madikensky" src="./Github.svg" />
         <SocialLink href="https://t.me/madikensky" src="./Telegram App.svg" />
       </div>
-      <p className="text-gray-400 text-sm">
+      <p className="text-gray-400 text-xs sm:text-sm">
         Copyright © 2024 Taskify.AI. All rights reserved.
       </p>
     </footer>

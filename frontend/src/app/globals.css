@@ -103,9 +103,10 @@ header {
   background-color: #242D3C;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   header {
     /* padding: 0px 40px; */
+    /* padding: 0; */
     /* background-color: red; */
   }
 }

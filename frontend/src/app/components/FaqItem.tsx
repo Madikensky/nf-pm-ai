@@ -16,14 +16,16 @@ export default function FaqItem({ question, answer, isLast }: FaqItemProps) {
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center w-full text-left"
+        className="flex justify-between items-center w-full text-left gap-5"
       >
-        <span className="text-xl text-main-color font-semibold">
+        <span className="text-xs sm:text-sm lg:text-xl text-main-color font-semibold">
           {question}
         </span>
         <span className="text-black">{isOpen ? '×' : '+'}</span>
       </button>
-      {isOpen && <p className="mt-2 text-gray-600">{answer}</p>}
+      {isOpen && (
+        <p className="mt-2 text-xs sm:text-sm  text-gray-600">{answer}</p>
+      )}
     </div>
   );
 }
