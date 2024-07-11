@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function Login() {
   return (
     <div className="">
-      <Header showLogin={false} />
+      <Header showLogin={false} isAbsolute={true} />
       <div className="flex flex-col sm:flex-row mt-20 sm:mt-0">
         <LoginLeft />
         <LoginRight />

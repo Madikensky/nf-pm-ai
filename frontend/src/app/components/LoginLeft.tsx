@@ -33,7 +33,7 @@ export default function LoginLeft() {
       localStorage.setItem('trelloToken', apiKey);
       localStorage.setItem('trelloAuth', apiToken);
 
-      router.push('/main');
+      router.push('/');
     } catch (e) {
       console.log(e);
       setError('Неверный Trello API Token или Trello');
@@ -55,7 +55,7 @@ export default function LoginLeft() {
         </p>
         <InputField tokenType="Trello API Token" setToken={setTrelloToken} />
         <InputField tokenType="Trello Auth Token" setToken={setTrelloAuth} />
-        <button className="text-white font-medium lg:text-smaller sm:text-sm bg-main-color p-2 rounded-md w-full sm:w-1/2 lg:w-1/4">
+        <button className="text-white font-medium lg:text-smaller sm:text-sm bg-main-color p-2 lg:p-4 rounded-md w-full sm:w-1/2 lg:w-1/4">
           Войти
         </button>
         {error && <p className="text-red-600 text-lg">{error}</p>}

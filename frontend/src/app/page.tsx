@@ -6,30 +6,36 @@ import Image from 'next/image';
 import FaqContainer from './components/FaqContainer';
 import Footer from './components/Footer';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import ChatComponent from './components/ChatComponent';
 
 export default function Home() {
   const router = useRouter();
+  const [isLogged, setIsLogged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const trelloToken = localStorage.getItem('trelloToken');
     const trelloAuth = localStorage.getItem('trelloAuth');
 
     if (trelloToken && trelloAuth) {
-      router.push('/main');
+      setIsLogged(true);
     }
+    setIsLoading(false);
   }, []);
 
   const handleLogin = () => {
     router.push('/login');
   };
 
-  return (
+  if (isLoading) return <div>Loading...</div>;
+
+  return !isLogged ? (
     <div className="flex flex-col gap-10 sm:gap-20">
-      <Header showLogin={true} onClick={handleLogin} />
+      <Header showLogin={true} onClick={handleLogin} isAbsolute={true} />
       <div className="flex flex-col gap-20  mt-20 sm:mt-48 sm:flex-row sm:gap-5 border-blue-800 p-10">
         <div className="flex flex-col gap-10 w-full sm:w-1/2 justify-center">
-          <p className="font-semibold sm:text-sm md:text-xl lg:text-3xl text-start">
+          <p className="font-semibold sm:text-sm md:text-xl lg:text-3xl sm:text-start text-center">
             Taskify.ai - Ваш персональный помощник на платформе&nbsp;
             <span className="inline-flex flex-row items-center justify-center">
               <span>Trello</span>
@@ -42,7 +48,7 @@ export default function Home() {
               />
             </span>
           </p>
-          <p className="font-medium sm:text-xs md:text-sm lg:text-xl">
+          <p className="font-medium sm:text-xs md:text-sm lg:text-xl sm:text-start text-center">
             {' '}
             Упростите и оптимизируйте управление задачами с помощью чат-бота на
             базе искусственного интеллекта.
@@ -64,5 +70,7 @@ export default function Home() {
       <FaqContainer />
       <Footer />
     </div>
+  ) : (
+    <ChatComponent />
   );
 }
