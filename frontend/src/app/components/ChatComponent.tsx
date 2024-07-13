@@ -5,7 +5,7 @@ import ChatFooter from './ChatFooter';
 
 export default function ChatComponent() {
   return (
-    <div className="flex flex-col border-4 border-red-600 h-dvh">
+    <div className="flex flex-col  border-red-600 h-dvh">
       <Header
         showLogin={false}
         showProfile={true}

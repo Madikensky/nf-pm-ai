@@ -110,3 +110,16 @@ header {
     /* background-color: red; */
   }
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  
+  overflow: -moz-scrollbars-none; 
+}

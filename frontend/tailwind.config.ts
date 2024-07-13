@@ -20,6 +20,7 @@ const config: Config = {
       fontSize: {
         default: '24px',
         smaller: '20px',
+        mini: '10px',
       },
       backgroundColor: {
         'gray-bg': '#EEEEEE',

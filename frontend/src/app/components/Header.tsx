@@ -17,14 +17,14 @@ export default function Header({
 }: LoginProps) {
   return (
     <header
-      className={`flex border-red-900 p-3 items-center justify-between px-6 ${
+      className={`flex border-red-900 p-3 items-center justify-between px-6  ${
         isAbsolute ? 'fixed top-0 left-0`' : ''
       } w-full`}
     >
       <div className="flex items-center justify-center">
         <Image src="/logo_taskify.svg" alt="logo" width={40} height={40} />
-        <p className="cursor-default sm:text-sm md:text-xl lg:text-2xl text-white font-medium">
-          Taskify.AI
+        <p className="cursor-default sm:text-sm md:text-xl lg:text-2xl text-white font-semibold">
+          Taskify.ai
         </p>
       </div>
       {showLogin && (
