@@ -103,13 +103,6 @@ header {
   background-color: #242D3C;
 }
 
-@media (max-width: 768px) {
-  header {
-    /* padding: 0px 40px; */
-    /* padding: 0; */
-    /* background-color: red; */
-  }
-}
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
@@ -123,3 +116,75 @@ header {
   -ms-overflow-style: none;  
   overflow: -moz-scrollbars-none; 
 }
+
+.user {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+}
+
+.user-prompt {
+  padding: 10px;
+  border-radius: 8px;
+  width: 80%;
+  background-color: #242D3C;
+  color:#fff;
+  font-weight: 500;
+}
+
+.ai-prompt {
+  padding: 10px;
+  border-radius: 8px;
+  width: 80%;
+  background-color: #D1D1D4;
+  color:#000000;
+  font-weight: 500;
+}
+
+.ai {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+
+.chat-container {
+  /* max-height: 468px; */
+  max-height: 72vh;
+  overflow: auto;
+}
+
+@media (min-width:425px) {
+  .ai-prompt {
+    width: 60%;
+  }
+
+  .user-prompt {
+    width: 60%;
+  }
+}
+
+@media (min-width:768px) {
+  .ai-prompt {
+    width: 50%;
+  }
+
+  .user-prompt {
+    width: 50%;
+  }
+}
+
+@media (min-width:1024px) {
+  .ai-prompt {
+    width: 40%;
+  }
+
+  .user-prompt {
+    width: 40%;
+  }
+}
+
+html {
+  scrollbar-color: #242d3c white;
+  scroll-behavior:smooth;
+}
+
