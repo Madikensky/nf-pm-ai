@@ -35,7 +35,7 @@ export default function ChatFooter() {
   };
 
   return (
-    <div className=" border-green-600 flex items-center justify-center p-6">
+    <div className=" border-green-600 flex items-center justify-center px-6 pb-6">
       <form
         className="border-2 border-main-color  w-full rounded-2xl flex flex-row p-2 gap-2 lg:w-1/2"
         onSubmit={(e) => {
