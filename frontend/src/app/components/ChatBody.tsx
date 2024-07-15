@@ -1,26 +1,40 @@
 import { useState, useRef, useEffect } from 'react';
 import ChatPreview from './ChatPreview';
+import Markdown from 'react-markdown';
+import ChatContainer from './ChatContainer';
 
-export default function ChatBody() {
-  const [isStarted, setIsStarted] = useState(true);
+export default function ChatBody({ chatHistory, isStarted }: any) {
+  // const [isStarted, setIsStarted] = useState(false);
+
+  useEffect(() => {
+    console.log(chatHistory);
+  }, [chatHistory]);
 
   return (
     <div className=" border-blue-600 flex-1 flex items-center justify-center px-4">
       {!isStarted && <ChatPreview />}
       {isStarted && (
-        <div className=" border-pink-700 w-full max-w-full h-full text-xs p-3 sm:p-5 lg:p-10 chat-container flex flex-col gap-10 sm:text-sm lg:text-xl lg:w-3/4 bg-gray-400 rounded-xl">
-          <div className="user">
-            <div className="user-prompt">
-              создай карточку "таск", добавь описание "дескрпшн", добавь таск в
-              список "Done" на доске "N!". Таск должен быть выполнен с середины
-              марта до середины мая. Ответственные за задачу Алина, Мадина
+        <ChatContainer>
+          {chatHistory.map((message: any, id: number) => (
+            <div className={message.role === 'model' ? 'ai' : 'user'} key={id}>
+              <Markdown
+                className={`${message.role === 'model' ? 'ai' : 'user'}-prompt`}
+              >
+                {message.parts[0].text}
+              </Markdown>
             </div>
-          </div>
-          <div className="ai">
-            <div className="ai-prompt">AI Prompt</div>
-          </div>
-        </div>
+          ))}
+        </ChatContainer>
       )}
+      {/* <div className="trello-container">
+        <iframe
+          src="https://trello.com/b/Atc5OQru.html"
+          width="300"
+          frameBorder={0}
+          height="300"
+          className="border-2 border-blue-900"
+        ></iframe>
+      </div> */}
     </div>
   );
 }

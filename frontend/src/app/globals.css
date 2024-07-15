@@ -126,7 +126,7 @@ header {
 .user-prompt {
   padding: 10px;
   border-radius: 8px;
-  width: 80%;
+  max-width: 80%;
   background-color: #242D3C;
   color:#fff;
   font-weight: 500;
@@ -135,9 +135,10 @@ header {
 .ai-prompt {
   padding: 10px;
   border-radius: 8px;
-  width: 80%;
-  background-color: #D1D1D4;
-  color:#000000;
+  max-width: 80%;
+  background-color: rgb(81, 80, 80);
+  /* color:#000000; */
+  color: white;
   font-weight: 500;
 }
 
@@ -157,31 +158,31 @@ header {
 
 @media (min-width:425px) {
   .ai-prompt {
-    width: 60%;
+    max-width: 60%;
   }
 
   .user-prompt {
-    width: 60%;
+    max-width: 60%;
   }
 }
 
 @media (min-width:768px) {
   .ai-prompt {
-    width: 50%;
+    max-width: 50%;
   }
 
   .user-prompt {
-    width: 50%;
+    max-width: 50%;
   }
 }
 
 @media (min-width:1024px) {
   .ai-prompt {
-    width: 40%;
+    max-width: 40%;
   }
 
   .user-prompt {
-    width: 40%;
+    max-width: 40%;
   }
 }
 

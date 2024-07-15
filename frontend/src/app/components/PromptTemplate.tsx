@@ -13,7 +13,7 @@ export default function PromptTemplate({
 }: PromptTemplateProps) {
   return (
     !isThird && (
-      <div className="border-2 rounded-3xl flex flex-col p-5 gap-2 border-main-color bg-main-color w-32 sm:w-36 md:w-48">
+      <div className="border-2 rounded-3xl flex flex-col p-5 gap-2 border-main-color bg-main-color w-32 sm:w-36 md:w-48 cursor-default">
         <div className="">
           <Image src={logo} alt="logo" width={30} height={30} />
         </div>

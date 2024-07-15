@@ -17,9 +17,6 @@ export default function Home() {
   const [error, setError] = useState('');
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [audioURL, setAudioURL] = useState('');
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
   const [isRecording, setIsRecording] = useState(false);
   const [chatHistory, setChatHistory] = useState([
     {
@@ -35,44 +32,6 @@ export default function Home() {
   useEffect(() => {
     console.log(chatHistory);
   }, [chatHistory]);
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        audioChunksRef.current.push(event.data);
-      };
-      mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, {
-          type: 'audio/wav',
-        });
-        audioChunksRef.current = [];
-
-        // Send the audio file to the server for recognition
-        const formData = new FormData();
-        formData.append('audio', audioBlob);
-
-        const response = await fetch('/api/post_audio', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const result = await response.json();
-        console.log(result);
-      };
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-    }
-  };
-
-  const stopRecording = () => {
-    mediaRecorderRef.current.stop();
-    // console.log(audioURL);
-    setIsRecording(false);
-  };
 
   const getGeminiResponse = async () => {
     if (!value) {
@@ -138,19 +97,6 @@ export default function Home() {
               <div className="flex flex-col">
                 {<button onClick={getGeminiResponse}>Send</button>}
               </div>
-            </div>
-            <div>
-              <button onClick={isRecording ? stopRecording : startRecording}>
-                {isRecording ? 'Stop Recording' : 'Start Recording'}
-              </button>
-              {audioURL && (
-                <div>
-                  <audio controls src={audioURL}></audio>
-                  <a href={audioURL} download="recording.wav">
-                    Download Recording
-                  </a>
-                </div>
-              )}
             </div>
             {error && <p className="text-red-600">{error}</p>}
             <div className="search-result">
