@@ -26,6 +26,7 @@ export default function ChatComponent() {
         setChatHistory={setChatHistory}
         setIsStarted={setIsStarted}
         setIsWaitingAIResponse={setIsWaitingResponse}
+        isWaitingAIResponse={isWaitingResponse}
       />
     </div>
   );

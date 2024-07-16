@@ -6,11 +6,11 @@ export default function ChatFooter({
   setChatHistory,
   setIsStarted,
   setIsWaitingAIResponse,
+  isWaitingAIResponse,
 }: any) {
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
   const [error, setError] = useState('');
-  // const [isWaitingResponse, setIsWaitingResponse] = useState(false);
   const [chatHistory, setLocalChatHistory] = useState<
     {
       role: string;
@@ -50,7 +50,7 @@ export default function ChatFooter({
           parts: [{ text: data }],
         },
       ]);
-      setLocalUserInput('');
+      // setLocalUserInput('');
       setError('');
     } catch (e: any) {
       console.log(e);
@@ -73,7 +73,7 @@ export default function ChatFooter({
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.trim().length > 0) {
+    if (e.target.value.trim().length > 0 && !isWaitingAIResponse) {
       setIsConversationStarted(true);
     } else {
       setIsConversationStarted(false);
@@ -128,8 +128,10 @@ export default function ChatFooter({
         ></textarea>
         <button
           type="submit"
-          className="flex border-red-600 min-w-14 items-center justify-center"
-          disabled={!isConversationStarted}
+          className={`flex border-red-600 min-w-14 items-center justify-center ${
+            isConversationStarted ? 'cursor-pointer' : 'cursor-no-drop'
+          }`}
+          disabled={!isConversationStarted && isWaitingAIResponse}
         >
           <div
             className={`border-blue-600 w-9/12 h-10 rounded-full ${

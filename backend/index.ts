@@ -149,6 +149,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const chat = model.startChat({ history });
     const sendPromptToGemini = await chat.sendMessage(userPrompt);
     let geminiAnswer = sendPromptToGemini.response.text();
+
     const json = containsJSON(geminiAnswer);
 
     // const needToHandlePrompt = `Gemini, ты должна преобразовать этот ответ так, чтобы его понял любой человек, просто описывая что было сделано в ответе. Например если в ответ создаются карточки или списки, то ты преобразуешь его в примерно такой формат: "Карточки были созданы успешно" и так далее. Вот сам ответ: ${geminiAnswer}`;
