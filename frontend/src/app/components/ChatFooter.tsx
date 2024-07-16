@@ -7,10 +7,11 @@ export default function ChatFooter({
   setIsStarted,
   setIsWaitingAIResponse,
   isWaitingAIResponse,
+  setError,
 }: any) {
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   const [chatHistory, setLocalChatHistory] = useState<
     {
       role: string;
@@ -148,7 +149,7 @@ export default function ChatFooter({
           </div>
         </button>
       </form>
-      {error && <p className="text-red-600">{error}</p>}
+      {/* {error && <p className="text-red-600">{error}</p>} */}
     </div>
   );
 }

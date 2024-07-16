@@ -8,6 +8,7 @@ export default function ChatComponent() {
   const [chatHistory, setChatHistory] = useState([]);
   const [isStarted, setIsStarted] = useState(false);
   const [isWaitingResponse, setIsWaitingResponse] = useState(false);
+  const [error, setError] = useState('');
 
   return (
     <div className="flex flex-col  border-red-600 h-dvh">
@@ -21,12 +22,14 @@ export default function ChatComponent() {
         chatHistory={chatHistory}
         isStarted={isStarted}
         isWaitingAIResponse={isWaitingResponse}
+        error={error}
       />
       <ChatFooter
         setChatHistory={setChatHistory}
         setIsStarted={setIsStarted}
         setIsWaitingAIResponse={setIsWaitingResponse}
         isWaitingAIResponse={isWaitingResponse}
+        setError={setError}
       />
     </div>
   );

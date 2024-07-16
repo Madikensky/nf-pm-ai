@@ -8,6 +8,7 @@ export default function ChatBody({
   chatHistory,
   isStarted,
   isWaitingAIResponse,
+  error,
 }: any) {
   // const [isStarted, setIsStarted] = useState(false);
 
@@ -36,11 +37,17 @@ export default function ChatBody({
                 <Image
                   alt="loading"
                   src="/loading2.gif"
+                  unoptimized={true}
                   width={0}
                   height={0}
                   className="w-6 h-6 sm:w-8 sm:h-8 lg:w-12 lg:h-12"
                 />
               </div>
+            </div>
+          )}
+          {error && (
+            <div className="ai">
+              <div className="ai-prompt">{error}</div>
             </div>
           )}
         </ChatContainer>
