@@ -129,7 +129,7 @@ export default function ChatFooter({
         ></textarea>
         <button
           type="submit"
-          className={`flex border-red-600 min-w-14 items-center justify-center ${
+          className={`flex border-red-600 min-w-14 items-center justify-end ${
             isConversationStarted ? 'cursor-pointer' : 'cursor-no-drop'
           }`}
           disabled={!isConversationStarted && isWaitingAIResponse}
