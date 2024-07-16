@@ -135,7 +135,7 @@ export default function ChatFooter({
           disabled={!isConversationStarted && isWaitingAIResponse}
         >
           <div
-            className={`border-blue-600 w-9/12 w-7 h-7 rounded-full flex items-center justify-center ${
+            className={`border-blue-600  w-7 h-7 rounded-full flex items-center justify-center ${
               isConversationStarted ? 'bg-main-color' : 'bg-gray-color'
             } flex items-center justify-center`}
           >
