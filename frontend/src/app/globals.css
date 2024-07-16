@@ -186,8 +186,16 @@ header {
   }
 }
 
-html {
-  scrollbar-color: #242d3c white;
-  scroll-behavior:smooth;
+
+
+::-webkit-scrollbar {
+  width: 11px;
 }
 
+
+::-webkit-scrollbar-thumb {
+  background-color: #818B99;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    background-clip: content-box;
+}

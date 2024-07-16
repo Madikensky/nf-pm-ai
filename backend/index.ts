@@ -203,6 +203,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
         }
 
         // console.log(geminiAnswer);
+        geminiAnswer =
+          'Операция была выполнена успешно! Хотите сделать что-то еще?';
       });
     } else {
       console.log('no');

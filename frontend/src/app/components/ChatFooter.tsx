@@ -31,24 +31,16 @@ export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
 
       const data = response.data;
 
-      setLocalChatHistory((oldChatHistory) => [
-        ...oldChatHistory,
-        {
-          role: 'user',
-          parts: [{ text: userInput }],
-        },
+      setChatHistory((prevHistory: any) => [
+        ...prevHistory,
         {
           role: 'model',
           parts: [{ text: data }],
         },
       ]);
 
-      setChatHistory((oldChatHistory: any) => [
-        ...oldChatHistory,
-        {
-          role: 'user',
-          parts: [{ text: userInput }],
-        },
+      setLocalChatHistory((prevHistory: any) => [
+        ...prevHistory,
         {
           role: 'model',
           parts: [{ text: data }],
@@ -89,6 +81,23 @@ export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
     if (!isConversationStarted) {
       return;
     }
+
+    setChatHistory((prevHistory: any) => [
+      ...prevHistory,
+      {
+        role: 'user',
+        parts: [{ text: userInput }],
+      },
+    ]);
+
+    setLocalChatHistory((prevHistory: any) => [
+      ...prevHistory,
+      {
+        role: 'user',
+        parts: [{ text: userInput }],
+      },
+    ]);
+
     setLocalUserInput('');
     setIsStarted(true);
     getGeminiResponse();
