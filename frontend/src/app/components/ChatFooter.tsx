@@ -31,7 +31,7 @@ export default function ChatFooter({
         history: chatHistory,
       });
 
-      console.log(response);
+      // console.log(response);
 
       const data = response.data;
 

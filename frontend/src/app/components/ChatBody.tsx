@@ -11,10 +11,10 @@ export default function ChatBody({
 }: any) {
   // const [isStarted, setIsStarted] = useState(false);
 
-  useEffect(() => {
-    console.log(chatHistory);
-    console.log(isWaitingAIResponse);
-  }, [chatHistory, isWaitingAIResponse]);
+  // useEffect(() => {
+  //   console.log(chatHistory);
+  //   console.log(isWaitingAIResponse);
+  // }, [chatHistory, isWaitingAIResponse]);
 
   return (
     <div className=" border-blue-600 flex-1 flex items-center justify-center px-4">

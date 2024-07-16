@@ -122,7 +122,7 @@ export default function Home() {
           </div>
         )}
       </div>
-      {/* <div className="trello-container">
+      <div className="trello-container">
         <iframe
           src="https://trello.com/b/Atc5OQru.html"
           width="300"
@@ -130,7 +130,7 @@ export default function Home() {
           height="300"
           className="border-2 border-blue-900"
         ></iframe>
-      </div> */}
+      </div>
       {isLoading && <div className="loader">Loading...</div>}
     </>
   );
