@@ -110,9 +110,9 @@ export default function ChatFooter({
   };
 
   return (
-    <div className=" border-green-600 flex items-center justify-center px-6 pb-6 ">
+    <div className=" border-green-600 flex items-center justify-center px-4 pb-6">
       <form
-        className=" border-main-color  w-full rounded-2xl flex flex-row p-2 gap-2 lg:w-3/4 bg-gray-200"
+        className=" border-main-color  w-full rounded-xl flex flex-row p-2 gap-2 lg:w-3/4 bg-gray-200"
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
@@ -135,14 +135,14 @@ export default function ChatFooter({
           disabled={!isConversationStarted && isWaitingAIResponse}
         >
           <div
-            className={`border-blue-600 w-9/12 h-10 rounded-full ${
+            className={`border-blue-600 w-9/12 w-7 h-7 rounded-full flex items-center justify-center ${
               isConversationStarted ? 'bg-main-color' : 'bg-gray-color'
             } flex items-center justify-center`}
           >
             <Image
               src="/up.png"
-              width={25}
-              height={25}
+              width={20}
+              height={20}
               alt="send"
               className=""
             />

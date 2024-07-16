@@ -134,6 +134,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
     });
     const { userPrompt, apiKey, token, history } = req.body;
 
+    console.log(userPrompt);
+
     const boards = await new BoardsInfo(apiKey, token).main();
 
     history.push({
