@@ -7,6 +7,7 @@ import { useState } from 'react';
 export default function ChatComponent() {
   const [chatHistory, setChatHistory] = useState([]);
   const [isStarted, setIsStarted] = useState(false);
+  const [isWaitingResponse, setIsWaitingResponse] = useState(false);
 
   return (
     <div className="flex flex-col  border-red-600 h-dvh">
@@ -16,8 +17,16 @@ export default function ChatComponent() {
         showTrello={true}
         isAbsolute={false}
       />
-      <ChatBody chatHistory={chatHistory} isStarted={isStarted} />
-      <ChatFooter setChatHistory={setChatHistory} setIsStarted={setIsStarted} />
+      <ChatBody
+        chatHistory={chatHistory}
+        isStarted={isStarted}
+        isWaitingAIResponse={isWaitingResponse}
+      />
+      <ChatFooter
+        setChatHistory={setChatHistory}
+        setIsStarted={setIsStarted}
+        setIsWaitingAIResponse={setIsWaitingResponse}
+      />
     </div>
   );
 }

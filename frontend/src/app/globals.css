@@ -142,6 +142,16 @@ header {
   font-weight: 500;
 }
 
+.ai-prompt-loader {
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 80%;
+  background-color: #E5E7EB;
+  /* color:#000000; */
+  color: white;
+  font-weight: 500;
+}
+
 .ai {
   display: flex;
   justify-content: start;

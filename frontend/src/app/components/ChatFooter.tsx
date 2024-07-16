@@ -2,11 +2,15 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
+export default function ChatFooter({
+  setChatHistory,
+  setIsStarted,
+  setIsWaitingAIResponse,
+}: any) {
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isWaitingResponse, setIsWaitingResponse] = useState(false);
   const [chatHistory, setLocalChatHistory] = useState<
     {
       role: string;
@@ -18,8 +22,8 @@ export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
     try {
       const savedTrelloToken = localStorage.getItem('trelloToken');
       const savedTrelloAuth = localStorage.getItem('trelloAuth');
-      setIsLoading(true);
-
+      // setIsWaitingResponse(true);
+      setIsWaitingAIResponse(true);
       const response = await axios.post('http://localhost:5000/gemini', {
         userPrompt: userInput,
         apiKey: savedTrelloToken,
@@ -46,14 +50,14 @@ export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
           parts: [{ text: data }],
         },
       ]);
-
       setLocalUserInput('');
-      setIsLoading(false);
       setError('');
     } catch (e: any) {
       console.log(e);
       setError('Что-то пошло не так. Пожалуйста, попробуйте еще раз.');
-      setIsLoading(false);
+    } finally {
+      // setIsWaitingResponse(false);
+      setIsWaitingAIResponse(false);
     }
   };
 
@@ -75,6 +79,7 @@ export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
       setIsConversationStarted(false);
     }
     setLocalUserInput(e.target.value);
+    // console.log(e.target.value.trim());
   };
 
   const handleSubmit = () => {
@@ -97,7 +102,7 @@ export default function ChatFooter({ setChatHistory, setIsStarted }: any) {
         parts: [{ text: userInput }],
       },
     ]);
-
+    setIsConversationStarted(false);
     setLocalUserInput('');
     setIsStarted(true);
     getGeminiResponse();
