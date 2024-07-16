@@ -3,8 +3,8 @@ import {
   HarmBlockThreshold,
   HarmCategory,
 } from '@google/generative-ai';
-import { BoardsInfo } from './src/BoardsInfo';
-import { containsJSON } from './src/Validation';
+import { BoardsInfo } from './BoardsInfo';
+import { containsJSON } from './Validation';
 import { config } from 'dotenv';
 import { Request, Response } from 'express';
 import axios from 'axios';
