@@ -101,6 +101,7 @@ body {
 
 header {
   background-color: #242D3C;
+  transition: 1s;
 }
 
 
@@ -204,6 +205,7 @@ header {
 @media (min-width:1024px) {
   .ai-prompt {
     max-width: 40%;
+    
   }
 
   .user-prompt {
@@ -211,5 +213,11 @@ header {
   }
 }
 
+.trello-container {
+  transition: 0.4s;
+}
 
+.open {
+  right: 0;
+}
 

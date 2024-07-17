@@ -34,8 +34,15 @@ export default function LoginLeft({
         `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
       );
 
-      console.log(response.data);
+      const boards = response.data;
+      // console.log(boards);
 
+      boards.forEach((board: any) => {
+        console.log('board url:', board.shortUrl);
+        console.log('board name:', board.name);
+      });
+
+      localStorage.setItem('trelloBoards', JSON.stringify(boards));
       localStorage.setItem('trelloToken', apiKey);
       localStorage.setItem('trelloAuth', apiToken);
 
@@ -44,7 +51,7 @@ export default function LoginLeft({
       console.log(e);
       setError('Неверный Trello API Token или Trello');
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 

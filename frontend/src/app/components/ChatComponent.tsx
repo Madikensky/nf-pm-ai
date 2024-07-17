@@ -9,6 +9,7 @@ export default function ChatComponent() {
   const [isStarted, setIsStarted] = useState(false);
   const [isWaitingResponse, setIsWaitingResponse] = useState(false);
   const [error, setError] = useState('');
+  // const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex flex-col  border-red-600 h-dvh">
@@ -17,12 +18,14 @@ export default function ChatComponent() {
         showProfile={true}
         showTrello={true}
         isAbsolute={false}
+        // setIsOpen={setIsOpen}
       />
       <ChatBody
         chatHistory={chatHistory}
         isStarted={isStarted}
         isWaitingAIResponse={isWaitingResponse}
         error={error}
+        // isOpen={isOpen}
       />
       <ChatFooter
         setChatHistory={setChatHistory}

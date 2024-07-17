@@ -16,6 +16,7 @@ const config: Config = {
       colors: {
         'main-color': '#242D3C',
         'gray-color': '#707070',
+        'trello-color': '#0079BF',
       },
       fontSize: {
         default: '24px',

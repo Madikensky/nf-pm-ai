@@ -3,16 +3,16 @@ import ChatPreview from './ChatPreview';
 import Markdown from 'react-markdown';
 import ChatContainer from './ChatContainer';
 import Image from 'next/image';
+import SideBar from './Sidebar';
 
 export default function ChatBody({
   chatHistory,
   isStarted,
   isWaitingAIResponse,
   error,
+  isOpen,
 }: any) {
-  useEffect(() => {
-    console.log(chatHistory);
-  }, [chatHistory]);
+  const [isBoardsOpen, setIsBoardsOpen] = useState(false);
 
   return (
     <div className=" border-blue-600 flex-1 flex items-center justify-center px-4">
@@ -49,16 +49,7 @@ export default function ChatBody({
           )}
         </ChatContainer>
       )}
-      {/* <div className="trello-container">
-        <iframe
-          // src="https://trello.com/b/Atc5OQru.html"
-          src="https://trello.com/b/3e2yZkag.html"
-          width="300"
-          frameBorder={0}
-          height="300"
-          className="border-2 border-blue-900"
-        ></iframe>
-      </div> */}
+      {/* {<SideBar />} */}
     </div>
   );
 }

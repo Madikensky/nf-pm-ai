@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import SideBar from './Sidebar';
+import { useState } from 'react';
 
 interface LoginProps {
   showLogin: boolean;
@@ -6,6 +8,7 @@ interface LoginProps {
   showTrello?: boolean;
   onClick?: () => void;
   isAbsolute?: boolean;
+  // setIsOpen: (value: boolean) => void;
 }
 
 export default function Header({
@@ -14,10 +17,13 @@ export default function Header({
   showTrello,
   onClick,
   isAbsolute,
-}: LoginProps) {
+}: // setIsOpen,
+LoginProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header
-      className={`flex border-red-900 p-3 items-center justify-between px-6  ${
+      className={`flex border-red-900 p-3 items-center justify-between px-2 sm:px-6 ${
         isAbsolute ? 'fixed top-0 left-0`' : ''
       } w-full`}
     >
@@ -36,11 +42,30 @@ export default function Header({
         </button>
       )}
       {showProfile && showTrello && (
-        <div className="flex flex-row gap-5">
-          <Image src="/profile.svg" alt="profile" width={30} height={30} />
-          <Image src="/Trello_board.svg" alt="close" width={30} height={30} />
+        <div className="flex flex-row gap-3">
+          <span
+            className="flex flex-row items-center justify-center text-white cursor-pointer gap-1"
+            onClick={() => setIsOpen(true)}
+          >
+            <span className="text-xs sm:text-sm md:text-lg">Мои доски</span>
+            <Image
+              className="cursor-pointer"
+              src="/Trello_board.svg"
+              alt="close"
+              width={30}
+              height={30}
+            />
+          </span>
+          <Image
+            src="/profile.svg"
+            alt="profile"
+            width={30}
+            height={30}
+            // className="cursor-pointer"
+          />
         </div>
       )}
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
     </header>
   );
 }
