@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ChatComponent from './components/ChatComponent';
+import Loading from './components/Loading';
 
 export default function Home() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function Home() {
     router.push('/login');
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return !isLogged ? (
     <div className="flex flex-col gap-10 sm:gap-20">

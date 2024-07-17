@@ -82,14 +82,14 @@ export default function LoginRight() {
                 'Справа от поля с вашим API ключом будет небольшой текст, нажмите там на cинее слово ',
             },
             {
-              content: 'token ',
+              content: 'Token ',
               weight: '600',
             },
             {
               content: 'или ',
             },
             {
-              content: 'токен ',
+              content: 'Tокен ',
               weight: '600',
             },
             {

@@ -4,8 +4,13 @@ import InputField from './InputField';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Loading from './Loading';
 
-export default function LoginLeft() {
+export default function LoginLeft({
+  setIsLoading,
+}: {
+  setIsLoading: (value: boolean) => void;
+}) {
   const [trelloToken, setTrelloToken] = useState('');
   const [trelloAuth, setTrelloAuth] = useState('');
   const [error, setError] = useState('');
@@ -18,6 +23,7 @@ export default function LoginLeft() {
       return;
     }
     setError('');
+    setIsLoading(true);
     console.log(trelloToken, trelloAuth);
 
     try {
@@ -37,6 +43,8 @@ export default function LoginLeft() {
     } catch (e) {
       console.log(e);
       setError('Неверный Trello API Token или Trello');
+    } finally {
+      setIsLoading(false);
     }
   };
 
