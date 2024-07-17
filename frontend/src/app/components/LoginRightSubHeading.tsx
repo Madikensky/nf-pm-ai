@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface RightSubheadingProps {
   title: string;
   subtitle: { content: string; color?: string; weight?: string }[];
@@ -16,9 +18,37 @@ export default function LoginRightSubHeading({
         {subtitle.map((str, idx) =>
           str.content === '<br>' ? (
             <br key={idx} />
-          ) : (
+          ) : str.content === 'link ' ? (
             <span key={idx} style={{ fontWeight: str.weight }}>
-              {str.content}
+              {
+                <Link
+                  href="https://trello.com/power-ups/admin"
+                  target="_blank"
+                  className="text-blue-600"
+                >
+                  Trello Power Ups&nbsp;
+                </Link>
+              }
+            </span>
+          ) : str.content === 'Trello' ? (
+            <span key={idx} style={{ fontWeight: str.weight }}>
+              {
+                <Link
+                  href="https://trello.com/"
+                  target="_blank"
+                  className="text-blue-600"
+                >
+                  Trello&nbsp;
+                </Link>
+              }
+            </span>
+          ) : (
+            <span
+              key={idx}
+              style={{ fontWeight: str.weight }}
+              className="text-blue-600"
+            >
+              <span className="text-black">{str.content}</span>
             </span>
           )
         )}

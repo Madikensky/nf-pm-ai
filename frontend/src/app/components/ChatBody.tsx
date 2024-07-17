@@ -10,12 +10,9 @@ export default function ChatBody({
   isWaitingAIResponse,
   error,
 }: any) {
-  // const [isStarted, setIsStarted] = useState(false);
-
-  // useEffect(() => {
-  //   console.log(chatHistory);
-  //   console.log(isWaitingAIResponse);
-  // }, [chatHistory, isWaitingAIResponse]);
+  useEffect(() => {
+    console.log(chatHistory);
+  }, [chatHistory]);
 
   return (
     <div className=" border-blue-600 flex-1 flex items-center justify-center px-4">
@@ -54,7 +51,8 @@ export default function ChatBody({
       )}
       {/* <div className="trello-container">
         <iframe
-          src="https://trello.com/b/Atc5OQru.html"
+          // src="https://trello.com/b/Atc5OQru.html"
+          src="https://trello.com/b/3e2yZkag.html"
           width="300"
           frameBorder={0}
           height="300"

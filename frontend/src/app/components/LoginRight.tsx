@@ -23,7 +23,7 @@ export default function LoginRight() {
               content: 'Перейдите на сайт ',
             },
             {
-              content: 'Trello ',
+              content: 'Trello',
               weight: '600',
             },
             {
@@ -35,7 +35,10 @@ export default function LoginRight() {
           title="Шаг 2: Сгенерируйте API ключ"
           subtitle={[
             { content: 'Перейдите на сайт ' },
-            { content: 'trello power-up ', weight: '600' },
+            {
+              content: 'link ',
+              weight: '600',
+            },
             { content: 'и нажмите в правой стороне на кнопку ' },
             { content: 'New ', weight: '600' },
             { content: 'или ' },

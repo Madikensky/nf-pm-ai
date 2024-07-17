@@ -167,6 +167,20 @@ header {
 }
 
 
+.chat-container::-webkit-scrollbar {
+  width: 11px;
+}
+
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: #818B99;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    background-clip: content-box;
+}
+
+
+
 @media (min-width:425px) {
   .ai-prompt {
     max-width: 60%;
@@ -199,14 +213,3 @@ header {
 
 
 
-::-webkit-scrollbar {
-  width: 11px;
-}
-
-
-::-webkit-scrollbar-thumb {
-  background-color: #818B99;
-    border: 3px solid transparent;
-    border-radius: 10px;
-    background-clip: content-box;
-}
