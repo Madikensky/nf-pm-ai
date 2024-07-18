@@ -130,7 +130,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
         },
       ],
       systemInstruction: context,
-      generationConfig: { maxOutputTokens: 5000, temperature: 1 },
+      generationConfig: { maxOutputTokens: 3000, temperature: 0.3 },
     });
     const { userPrompt, apiKey, token, history } = req.body;
 
@@ -160,6 +160,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
     // geminiAnswer = response.response.text();
 
     if (json) {
+      console.log(json);
       const data = JSON.parse(json);
 
       data.map((task: any) => {
@@ -168,6 +169,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
             task.params;
 
           const currBoards = JSON.parse(boards!); // Additional check to handle undefined
+
+          // console.log('currBoards:', currBoards);
 
           currBoards.map((board: any) => {
             if (board.name === boardName) {
@@ -193,12 +196,14 @@ app.post('/gemini', async (req: Request, res: Response) => {
                   delete queryParam[key];
                 }
               }
+              console.log('query:', queryParam);
 
               axios
                 .post('https://api.trello.com/1/cards', null, {
                   params: queryParam,
                 })
                 .then((e) => {
+                  console.log('Final data:', e.data);
                   return e.data;
                 })
                 .catch((e) => console.log(e));
@@ -206,9 +211,10 @@ app.post('/gemini', async (req: Request, res: Response) => {
           });
         }
 
-        // console.log(geminiAnswer);
-        // geminiAnswer =
-        //   'Операция была выполнена успешно! Хотите сделать что-то еще?';
+        console.log(geminiAnswer);
+        // console.log(json);
+        geminiAnswer =
+          'Операция была выполнена успешно! Хотите сделать что-то еще?';
       });
     } else {
       console.log('no');

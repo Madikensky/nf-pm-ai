@@ -66,7 +66,17 @@ export default function Home() {
           </div>
         </div>
         <div className="flex items-center justify-center  bg-main-color text-white rounded-lg sm:w-1/2">
-          <div className="h-96 flex items-center justify-center">Video</div>
+          <div className="h-full flex items-center justify-center">
+            <video
+              src="video.mp4"
+              className=" border-main-color rounded"
+              autoPlay
+              controls={false}
+              muted
+              loop
+              playsInline
+            />
+          </div>
         </div>
       </div>
       <FaqContainer />
