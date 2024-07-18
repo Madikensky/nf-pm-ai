@@ -129,7 +129,7 @@ export default function ChatFooter({
       >
         <textarea
           name=""
-          className="w-full rounded-tl-lg rounded-bl-lg outline-none resize-none text-xs sm:text-sm md:text-lg lg:text-md p-2 bg-gray-200"
+          className="w-full rounded-tl-lg rounded-bl-lg outline-none resize-none text-xs sm:text-sm  p-2 bg-gray-200"
           placeholder='Создай карточку "Дейлик"...'
           value={userInput}
           onKeyDown={handleKeyDown}

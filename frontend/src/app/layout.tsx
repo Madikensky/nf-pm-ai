@@ -12,7 +12,7 @@ import {
 } from 'next/font/google';
 import './globals.css';
 
-const inter = Nunito({ weight: '400', subsets: ['latin'] });
+const inter = Open_Sans({ weight: '400', subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Taskify.ai',

@@ -51,7 +51,7 @@ LoginProps) {
             <span className="text-xs sm:text-sm md:text-lg">Мои доски</span>
             <Image
               className="cursor-pointer"
-              src="/Trello_board.svg"
+              src="/trello-board.svg"
               alt="close"
               width={30}
               height={30}
