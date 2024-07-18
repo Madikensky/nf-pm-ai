@@ -62,7 +62,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
         ></iframe>
       ) : (
         <div className="h-full w-full bg-main-color flex flex-col items-center justify-between p-5 sm:justify-around gap-5">
-          <h1 className="font-semibold text-xl text-white">
+          <h1 className="font-semibold text-xl text-light-blue">
             Ваши доски Trello:
           </h1>
           <div className="flex flex-col gap-4 w-full p-2">

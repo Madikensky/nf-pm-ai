@@ -36,21 +36,21 @@ export default function Home() {
     <div className="flex flex-col gap-10 sm:gap-20">
       <Header showLogin={true} onClick={handleLogin} isAbsolute={true} />
       <div className="flex flex-col gap-20  mt-20 sm:mt-48 sm:flex-row sm:gap-5 border-blue-800 p-10">
-        <div className="flex flex-col gap-10 w-full sm:w-1/2 justify-center">
-          <p className="font-semibold sm:text-sm md:text-xl lg:text-3xl sm:text-start text-center">
+        <div className="flex flex-col gap-10 w-full sm:w-1/2 justify-center ">
+          <p className="font-black text-smaller md:text-xl lg:text-3xl sm:text-start text-center">
             Taskify.ai - Ваш персональный помощник на платформе&nbsp;
-            <span className="inline-flex flex-row items-center justify-center">
+            <span className="inline-flex flex-row items-center justify-center gap-1">
               <span>Trello</span>
               <Image
-                src={'/Trello.svg'}
+                src={'/trello-b.svg'}
                 alt="trello"
-                width={35}
-                height={35}
+                width={25}
+                height={25}
                 className=""
               />
             </span>
           </p>
-          <p className="font-medium sm:text-xs md:text-sm lg:text-xl sm:text-start text-center">
+          <p className="font-normal sm:text-xs md:text-sm lg:text-xl sm:text-start text-center">
             {' '}
             Упростите и оптимизируйте управление задачами с помощью чат-бота на
             базе искусственного интеллекта.

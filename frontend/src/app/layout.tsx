@@ -1,18 +1,8 @@
 import type { Metadata } from 'next';
-import {
-  Poppins,
-  Open_Sans,
-  Roboto,
-  Montserrat,
-  Roboto_Condensed,
-  Merriweather,
-  Nunito,
-  Nunito_Sans,
-  Lato,
-} from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import './globals.css';
 
-const inter = Open_Sans({ weight: '400', subsets: ['latin'] });
+const inter = Manrope({ weight: '400', subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Taskify.ai',

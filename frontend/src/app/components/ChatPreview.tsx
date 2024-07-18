@@ -31,13 +31,13 @@ export default function ChatPreview() {
   const isBreakpoint = useMediaQuery(768);
 
   return (
-    <div className=" border-red-600 w-full h-full flex items-center justify-center flex-col gap-0 flex-wrap">
+    <div className=" border-red-600 w-full h-full flex items-center justify-center flex-col gap-10 flex-wrap ">
       <div>
         <Image
-          src="./taskif2.svg"
+          src="./Component 1.svg"
           alt="dark_logo"
-          width={300}
-          height={300}
+          width={180}
+          height={180}
           className=""
         />
       </div>
