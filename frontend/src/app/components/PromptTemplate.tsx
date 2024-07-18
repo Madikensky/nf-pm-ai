@@ -17,7 +17,7 @@ export default function PromptTemplate({
         <div className="">
           <Image src={logo} alt="logo" width={30} height={30} />
         </div>
-        <div className="text-gray-400 font-semibold text-start w-1/2 text-xs sm:text-sm md:text-lg lg:text-xl">
+        <div className="text-gray-400 font-semibold text-start w-1/2 text-xs sm:text-sm md:text-lg">
           {title}
         </div>
       </div>

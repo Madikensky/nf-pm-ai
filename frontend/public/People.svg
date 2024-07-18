@@ -1,9 +1,14 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="48" height="48" fill="url(#pattern0_209_676)"/>
-<defs>
-<pattern id="pattern0_209_676" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_209_676" transform="scale(0.0208333)"/>
-</pattern>
-<image id="image0_209_676" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB7UlEQVR4nO2XzS4DURTHbyiJsFQkvAErYssDlEioBS9A2ImdFdXEziOIZeMZqiK2PvaiWDfxVURI/OTGJeN2Ztrp3GlHen/JJE3Oued/zplz750KYbFYLBaLQYA+YBs4B57VcwZkpE3EGWAeeMIbaUuLGCf/SXU+Y1cE32Pj13mdRyAp4oKa+aBsibgAXNRRwFnUSc0AR46TpABMe/gGGZ8fnsLq+iW/4yOcNVTAY1hd4dOBakxpa+SZH2qEqEPXqwD5+qpxqK2Rl1RQNsPqehVQDjq/dRyjD0BvWF1jBah16QAX2awp3QrUrq9GvnLlbxHykvLr/Kxp3T/II6uGQCmf9Ul5SQGnqqtl9XtTHxuTunqwrE+QjIgITOrKI0vuekcX8zV3IAQ0SdfSVIAuYBLYAHLqZi4Bb+opqX9lOeUzIdeIJiedAOaAA+CV4LyotTJGwnRiKWAXWHCxtwPLQBFzFIEloM1Fb1HlkvItVI3BqiOxK6BD8xmq8ZulXgrAoKbZCVw7Cl2pGD9gHLjUgq1pPgPALdFzA/Rr2uuaj8x17Mc45vEdMqwF2adx7GnaIy4+8uNxVBpPPIJ0a0HuaRx3mnaPh9+xNH64WVz2SEMRtem/eyb2TwrAFhAVwr4BjchaTavvAYvFYrG0NF9SZgabBhxiuQAAAABJRU5ErkJggg=="/>
-</defs>
-</svg>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#fff" fill="none">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<circle cx="31.89" cy="22.71" r="5.57"/>
+<path d="M43.16,43.74A11.28,11.28,0,0,0,31.89,32.47h0A11.27,11.27,0,0,0,20.62,43.74Z"/>
+<circle cx="48.46" cy="22.71" r="5.57"/>
+<path d="M46.87,43.74H59.73A11.27,11.27,0,0,0,48.46,32.47h0a11.24,11.24,0,0,0-5.29,1.32"/>
+<circle cx="15.54" cy="22.71" r="5.57"/>
+<path d="M17.13,43.74H4.27A11.27,11.27,0,0,1,15.54,32.47h0a11.24,11.24,0,0,1,5.29,1.32"/>
+</g>
+</svg>

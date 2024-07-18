@@ -34,7 +34,7 @@ export default function ChatPreview() {
     <div className=" border-red-600 w-full h-full flex items-center justify-center flex-col gap-0 flex-wrap">
       <div>
         <Image
-          src="./dark_taskify.svg"
+          src="./taskif2.svg"
           alt="dark_logo"
           width={300}
           height={300}
@@ -48,7 +48,7 @@ export default function ChatPreview() {
 карточки"
         />
         <PromptTemplate
-          logo="/Timesheet.svg"
+          logo="/Calendar.svg"
           title="Определяйте
 дедлайн"
         />

@@ -1,9 +1,7 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="48" height="48" fill="url(#pattern0_209_675)"/>
-<defs>
-<pattern id="pattern0_209_675" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_209_675" transform="scale(0.0208333)"/>
-</pattern>
-<image id="image0_209_675" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA9klEQVR4nO2ZTQrCMBBGcxBd94gu6xX0Fv6AF1NRly30ScCFxBqYxLRBvgfdlZl5mW+VOCeEmARgC/R80gMbVztAx3e6Uk2XwBF4YGSk1mD8/wGcgCZn+It18MhAMYbI/1c/S4qAP/lkkk7tjaDcwVlJiU1BgXtugbkFkIAV60Zd7RuYXcBlIgEr2kCAImRFEQpQhKwoQgGKkBVFKEARsqII/WGEVpH52+oFIhJtkf4lBEYk2mL9Swm8aq/950r2LykwSX8kkAfaAHmXuz/mlrJC/7hQC7sUgeb1uDA3Z2BhFnh7pdn7+/kZBr/7k08eXggh3BQ8AVtJpoU2OQ4JAAAAAElFTkSuQmCC"/>
-</defs>
-</svg>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" fill="#fff" stroke="#fff">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier"> <g fill="none" fill-rule="evenodd" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 3)"> <path d="m7 1.5h-4.5c-1.1045695 0-2 .8954305-2 2v9.0003682c0 1.1045695.8954305 2 2 2h10c1.1045695 0 2-.8954305 2-2v-4.5003682"/> <path d="m14.5.46667982c.5549155.5734054.5474396 1.48588056-.0167966 2.05011677l-6.9832034 6.98320341-3 1 1-3 6.9874295-7.04563515c.5136195-.5178979 1.3296676-.55351813 1.8848509-.1045243z"/> <path d="m12.5 2.5.953 1"/> </g> </g>
+</svg>
