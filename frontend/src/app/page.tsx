@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ChatComponent from './components/ChatComponent';
 import Loading from './components/Loading';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function Home() {
   const router = useRouter();
@@ -70,8 +71,12 @@ export default function Home() {
       </div>
       <FaqContainer />
       <Footer />
+      <Analytics />
     </div>
   ) : (
-    <ChatComponent />
+    <>
+      <ChatComponent />
+      <Analytics />
+    </>
   );
 }

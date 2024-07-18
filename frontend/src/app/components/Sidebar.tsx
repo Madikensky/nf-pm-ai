@@ -12,8 +12,8 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
     if (localStorage.getItem('trelloBoards')) {
       setBoards(JSON.parse(localStorage.getItem('trelloBoards') as string));
     }
-    console.log(currentBoard);
-  }, [currentBoard]);
+    // console.log(currentBoard);
+  }, []);
 
   const reloadBoard = () => {
     if (iframeRef.current) {
