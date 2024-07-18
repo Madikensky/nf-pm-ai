@@ -29,7 +29,7 @@ LoginProps) {
       } w-full`}
     >
       <div className="flex items-center justify-center">
-        <Image src="/logo-taskif.svg" alt="logo" width={40} height={40} />
+        <Image src="/logo_taskify.svg" alt="logo" width={50} height={50} />
         <p className="cursor-default sm:text-sm md:text-xl lg:text-2xl text-white font-medium">
           Taskify.ai
         </p>
