@@ -4,6 +4,7 @@ import Loading from './Loading';
 
 export default function SideBar({ isOpen, setIsOpen }: any) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
   const [boards, setBoards] = useState<any[]>([]);
   const [openIframe, setOpenIframe] = useState(false);
   const [currentBoard, setCurrentBoard] = useState('');
@@ -28,14 +29,16 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
       }`}
     >
       <div className="p-5 bg-main-color flex items-end justify-between sm:justify-end gap-4">
-        <Image
-          src={'/Reboot.svg'}
-          width={27}
-          height={27}
-          alt="update board"
-          className="cursor-pointer"
-          onClick={reloadBoard}
-        />
+        {openIframe && (
+          <Image
+            src={'/Reboot.svg'}
+            width={27}
+            height={27}
+            alt="update board"
+            className="cursor-pointer"
+            onClick={reloadBoard}
+          />
+        )}
         <Image
           src={'/Close.svg'}
           width={27}
@@ -63,18 +66,26 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
             Ваши доски Trello:
           </h1>
           <div className="flex flex-col gap-4 w-full">
-            {boards.map((board, id) => (
-              <div
-                key={id}
-                className="rounded-md p-2 px-6 text-center text-white bg-trello-color w-full cursor-pointer"
-                onClick={() => {
-                  setCurrentBoard(board.shortUrl);
-                  setOpenIframe(true);
-                }}
-              >
-                {board.name}
+            {boards.length !== 0 &&
+              boards.map((board, id) => (
+                <div
+                  key={id}
+                  className="rounded-md p-2 px-6 text-center text-white bg-trello-color w-full cursor-pointer"
+                  onClick={() => {
+                    setCurrentBoard(board.shortUrl);
+                    setOpenIframe(true);
+                  }}
+                >
+                  {board.name}
+                </div>
+              ))}
+            {boards.length === 0 && (
+              <div className="text-white text-center">
+                Доски не найдены ;(
+                <br />
+                Вам нужно создать доски в Trello, чтобы они отобразились здесь.
               </div>
-            ))}
+            )}
           </div>
           <div className="w-full text-red-200 text-sm text-center flex flex-col gap-5">
             <span>

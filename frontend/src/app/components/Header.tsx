@@ -20,6 +20,7 @@ export default function Header({
 }: // setIsOpen,
 LoginProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProfileClicked, setIsProfileClicked] = useState(false);
 
   return (
     <header
@@ -61,8 +62,22 @@ LoginProps) {
             alt="profile"
             width={30}
             height={30}
-            // className="cursor-pointer"
+            className="cursor-pointer"
+            onClick={() => setIsProfileClicked(!isProfileClicked)}
           />
+          {isProfileClicked && (
+            <span className="fixed right-7 top-14 bg-main-color text-white p-3 px-10 rounded-xl">
+              <button
+                className="text-red-400"
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+              >
+                Sign out
+              </button>
+            </span>
+          )}
         </div>
       )}
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />

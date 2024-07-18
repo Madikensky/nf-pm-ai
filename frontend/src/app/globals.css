@@ -205,11 +205,13 @@ header {
 @media (min-width:1024px) {
   .ai-prompt {
     max-width: 40%;
+    font-size: 16px;
     
   }
 
   .user-prompt {
     max-width: 40%;
+    font-size: 16px;
   }
 }
 

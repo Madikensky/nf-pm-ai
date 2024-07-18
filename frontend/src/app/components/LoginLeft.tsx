@@ -24,7 +24,7 @@ export default function LoginLeft({
     }
     setError('');
     setIsLoading(true);
-    console.log(trelloToken, trelloAuth);
+    // console.log(trelloToken, trelloAuth);
 
     try {
       const apiKey = trelloToken.trim();

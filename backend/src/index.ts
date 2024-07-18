@@ -216,6 +216,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     res.send(geminiAnswer);
   } catch (e) {
+    console.log(e);
     console.log('request:', req.body);
     res.status(500).send({
       message: 'Возникла ошибка на сервере. Попробуйте изменить свой запрос',
