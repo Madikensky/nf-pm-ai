@@ -57,8 +57,17 @@ export default function ChatFooter({
       console.log(e);
       setError('Что-то пошло не так. Пожалуйста, попробуйте еще раз.');
     } finally {
-      // setIsWaitingResponse(false);
       setIsWaitingAIResponse(false);
+
+      const apiKey = localStorage.getItem('trelloToken');
+      const apiToken = localStorage.getItem('trelloAuth');
+      const response = await axios.get(
+        `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
+      );
+
+      const boards = response.data;
+
+      localStorage.setItem('trelloBoards', JSON.stringify(boards));
     }
   };
 

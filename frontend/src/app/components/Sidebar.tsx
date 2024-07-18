@@ -24,7 +24,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
 
   return (
     <div
-      className={`trello-container h-full fixed top-0 right-[-100%] flex flex-col w-full sm:w-1/3 lg:w-1/4 ${
+      className={`trello-container h-full fixed top-0 right-[-100%] flex flex-col w-full sm:w-1/3 lg:w-1/4  ${
         isOpen ? 'open' : ''
       }`}
     >
@@ -61,11 +61,11 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
           className=" border-blue-900 h-full w-full bg-gray-400 flex items-center justify-center text-white"
         ></iframe>
       ) : (
-        <div className="h-full w-full bg-main-color flex flex-col items-center justify-between p-5 sm:justify-around">
+        <div className="h-full w-full bg-main-color flex flex-col items-center justify-between p-5 sm:justify-around gap-5">
           <h1 className="font-semibold text-xl text-white">
             Ваши доски Trello:
           </h1>
-          <div className="flex flex-col gap-4 w-full">
+          <div className="flex flex-col gap-4 w-full p-2">
             {boards.length !== 0 &&
               boards.map((board, id) => (
                 <div
@@ -100,6 +100,10 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
             </span>
             <span className="">
               нажмите на него и выберите &ldquo;Публичная видимость&rdquo;.
+            </span>
+            <span className="text-pink-100">
+              Если вы удалили старую доску, или добавили новую - не забудьте
+              обновить страницу.
             </span>
           </div>
         </div>

@@ -14,6 +14,10 @@ export default function ChatBody({
 }: any) {
   const [isBoardsOpen, setIsBoardsOpen] = useState(false);
 
+  useEffect(() => {
+    console.log(chatHistory);
+  }, [chatHistory]);
+
   return (
     <div className=" border-blue-600 flex-1 flex items-center justify-center px-4">
       {!isStarted && <ChatPreview />}
