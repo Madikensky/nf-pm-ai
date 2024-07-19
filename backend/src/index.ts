@@ -38,7 +38,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const boards = await new BoardsInfo(apiKey, token).main();
 
     history.push({
-      role: 'user',
+      role: 'system',
 
       content:
         'Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"' +
@@ -66,9 +66,9 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const handledAnswer = await openai.chat.completions.create({
       messages: [
         {
-          role: 'system',
+          role: 'assistant',
           content:
-            'Тебе нужно обработать запрос который тебе дает пользователь, и оставить только ту часть, где описывается что было выполнено. Чтобы было понятно и кратко',
+            'Тебе нужно обработать запрос который тебе дает пользователь, и оставить только ту часть, где описывается что было выполнено. Чтобы было понятно и кратко. Делай все в формате Markdown и преобразуй текст в красивый и приятный для глаз стиль.',
         },
         { role: 'user', content: gptAnswer },
       ],
@@ -76,8 +76,10 @@ app.post('/gemini', async (req: Request, res: Response) => {
     });
 
     if (json) {
-      console.log(json);
+      console.log('Ready json:', json);
       const data = JSON.parse(json);
+
+      console.log('Parsed json', data);
 
       data.map((task: any) => {
         if (task.action === 'addCard') {
@@ -119,7 +121,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                   params: queryParam,
                 })
                 .then((e) => {
-                  console.log('Final data:', e.data);
+                  // console.log('Final data:', e.data);
                   return e.data;
                 })
                 .catch((e) => console.log(e));
@@ -127,12 +129,9 @@ app.post('/gemini', async (req: Request, res: Response) => {
           });
         }
 
-        console.log(gptAnswer);
-        // console.log(json);
-        gptAnswer = handledAnswer.choices[0].message.content!;
+        // console.log(gptAnswer);
 
-        // gptAnswer =
-        //   'Операция была выполнена успешно! Хотите сделать что-то еще?';
+        gptAnswer = handledAnswer.choices[0].message.content!;
       });
     } else {
       console.log('no');
