@@ -24,11 +24,16 @@ export default function ChatBody({
       {isStarted && (
         <ChatContainer>
           {chatHistory.map((message: any, id: number) => (
-            <div className={message.role === 'model' ? 'ai' : 'user'} key={id}>
+            <div
+              className={message.role === 'assistant' ? 'ai' : 'user'}
+              key={id}
+            >
               <Markdown
-                className={`${message.role === 'model' ? 'ai' : 'user'}-prompt`}
+                className={`${
+                  message.role === 'assistant' ? 'ai' : 'user'
+                }-prompt`}
               >
-                {message.parts[0].text}
+                {message.content}
               </Markdown>
             </div>
           ))}

@@ -12,10 +12,18 @@ export default function ChatFooter({
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
   // const [error, setError] = useState('');
+
+  // const [chatHistory, setLocalChatHistory] = useState<
+  //   {
+  //     role: string;
+  //     parts: { text: string }[];
+  //   }[]
+  // >([]);
+
   const [chatHistory, setLocalChatHistory] = useState<
     {
       role: string;
-      parts: { text: string }[];
+      content: string;
     }[]
   >([]);
 
@@ -39,16 +47,20 @@ export default function ChatFooter({
       setChatHistory((prevHistory: any) => [
         ...prevHistory,
         {
-          role: 'model',
-          parts: [{ text: data }],
+          // role: 'model',
+          // parts: [{ text: data }],
+          role: 'assistant',
+          content: data,
         },
       ]);
 
       setLocalChatHistory((prevHistory: any) => [
         ...prevHistory,
         {
-          role: 'model',
-          parts: [{ text: data }],
+          // role: 'model',
+          // parts: [{ text: data }],
+          role: 'assistant',
+          content: data,
         },
       ]);
       // setLocalUserInput('');
@@ -100,22 +112,27 @@ export default function ChatFooter({
     setChatHistory((prevHistory: any) => [
       ...prevHistory,
       {
+        // role: 'user',
+        // parts: [{ text: userInput }],
         role: 'user',
-        parts: [{ text: userInput }],
+        content: userInput,
       },
     ]);
 
     setLocalChatHistory((prevHistory: any) => [
       ...prevHistory,
       {
+        // role: 'user',
+        // parts: [{ text: userInput }],
         role: 'user',
-        parts: [{ text: userInput }],
+        content: userInput,
       },
     ]);
     setIsConversationStarted(false);
     setLocalUserInput('');
     setIsStarted(true);
     getGeminiResponse();
+    setError(false);
   };
 
   return (
