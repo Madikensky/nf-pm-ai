@@ -1,7 +1,7 @@
 'use client';
 
 import InputField from './InputField';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Loading from './Loading';
@@ -13,45 +13,55 @@ export default function LoginLeft({
 }) {
   const [trelloToken, setTrelloToken] = useState('');
   const [trelloAuth, setTrelloAuth] = useState('');
+  const [isLoading, setLocalIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!trelloToken || !trelloAuth) {
-      setError('Пожалуйста, заполните все поля');
-      return;
-    }
-    setError('');
-    setIsLoading(true);
-    // console.log(trelloToken, trelloAuth);
+    // setIsLoading(true);
+    setLocalIsLoading(true);
 
     try {
       const apiKey = trelloToken.trim();
       const apiToken = trelloAuth.trim();
 
-      const response = await axios.get(
-        `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
-      );
-
-      const boards = response.data;
-      // console.log(boards);
-
-      boards.forEach((board: any) => {
-        console.log('board url:', board.shortUrl);
-        console.log('board name:', board.name);
+      const response = await axios.post('http://localhost:5000/token_login', {
+        trelloToken: apiKey,
+        authToken: apiToken,
       });
 
-      localStorage.setItem('trelloBoards', JSON.stringify(boards));
-      localStorage.setItem('trelloToken', apiKey);
-      localStorage.setItem('trelloAuth', apiToken);
+      // setIsLoading(false);
+      // setIsLoading(true);
 
-      router.push('/');
+      // console.log('response:', response.data);
+
+      // const response = await axios.get(
+      //   `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
+      // );
+
+      // const boards = response.data;
+
+      // boards.forEach((board: any) => {
+      //   console.log('board url:', board.shortUrl);
+      //   console.log('board name:', board.name);
+      // });
+
+      // localStorage.setItem('trelloBoards', JSON.stringify(boards));
+      // localStorage.setItem('trelloToken', apiKey);
+      // localStorage.setItem('trelloAuth', apiToken);
+
+      // router.push('/');
     } catch (e) {
       console.log(e);
-      setError('Неверный Trello API Token или Trello');
-    } finally {
-      // setIsLoading(false);
+      setError('Неверный Trello API Token или Trello Auth Token');
+      console.log(error);
+      setIsLoading(false);
+      setLocalIsLoading(false);
     }
   };
 
@@ -73,7 +83,7 @@ export default function LoginLeft({
         <button className="text-white font-medium lg:text-smaller sm:text-sm bg-main-color p-2 lg:p-4 rounded-md w-full sm:w-1/2 lg:w-1/4">
           Войти
         </button>
-        {error && <p className="text-red-600 text-lg">{error}</p>}
+        {error && <p className="text-red-600 text-lg text-center">{error}</p>}
       </div>
     </form>
   );

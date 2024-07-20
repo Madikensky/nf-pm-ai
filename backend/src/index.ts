@@ -5,9 +5,16 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import OpenAI from 'openai';
 import context from './Context';
+import connectDB from './db';
+import { saveTokens, getTokens, Token } from './auth';
+const crypto = require('crypto');
+import middleware from './middleware';
+const { v4: uuidv4 } = require('uuid');
 
-const fs = require('fs');
-const path = require('path');
+config();
+
+// const fs = require('fs');
+// const path = require('path');
 
 const PORT = 5000 || process.env.PORT;
 
@@ -16,22 +23,47 @@ const cors = require('cors');
 
 const app = express();
 
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+});
+
 app.use(cors());
 app.use(express.json());
 
-config();
+app.post('/token_login', async (req: Request, res: Response) => {
+  try {
+    const { trelloToken, authToken } = req.body;
 
-app.post('/token_login', (req: Request, res: Response) => {
-  const { trelloToken, authToken } = req.body;
+    // console.log(trelloToken, authToken);
 
-  if (trelloToken && authToken) {
-    res.send('Tokens have been saved');
-  } else {
-    res.send('Please enter valid tokens');
+    const response = await axios.get(
+      `https://api.trello.com/1/members/me/boards?key=${trelloToken}&token=${authToken}`
+    );
+
+    // console.log('response:', response.data);
+
+    const userId = uuidv4();
+
+    try {
+      await saveTokens(userId, trelloToken, authToken);
+      res.cookie('userId', userId, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      res.json({ userId });
+    } catch (error: any) {
+      console.error('Error in /token_login route:', error.message);
+      res.status(500).send('Internal Server Error');
+    }
+  } catch (error: any) {
+    console.error('Error in /token_login route:', error.message);
+    res.status(401).send('Не авторизован');
   }
 });
 
-app.post('/gemini', async (req: Request, res: Response) => {
+app.post('/gemini', middleware, async (req: Request, res: Response) => {
   try {
     const { userPrompt, apiKey, token, history } = req.body;
 
@@ -145,8 +177,4 @@ app.post('/gemini', async (req: Request, res: Response) => {
       message: 'Возникла ошибка на сервере. Попробуйте изменить свой запрос',
     });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });
