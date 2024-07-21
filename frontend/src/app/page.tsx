@@ -23,7 +23,9 @@ export default function Home() {
     if (email) {
       try {
         axios
-          .post('http://localhost:5000/get-tokens', { email: email })
+          .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
+            email: email,
+          })
           .then((res) => {
             // console.log(res);
             const { trelloToken, trelloAuth } = res.data;
