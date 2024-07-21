@@ -223,3 +223,32 @@ header {
   right: 0;
 }
 
+.faq-enter {
+  max-height: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.faq-enter-active {
+  max-height: 1000px; /* Достаточно большое значение */
+  opacity: 1;
+  transform: scaleY(1);
+  transition: max-height 300ms ease-out, opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.faq-exit {
+  max-height: 1000px;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.faq-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transform: scaleY(0);
+  transition: max-height 300ms ease-out, opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.faq-content {
+  overflow: hidden;
+}

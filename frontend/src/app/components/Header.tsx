@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import SideBar from './Sidebar';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface LoginProps {
   showLogin: boolean;
@@ -21,6 +22,7 @@ export default function Header({
 LoginProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileClicked, setIsProfileClicked] = useState(false);
+  const router = useRouter();
 
   return (
     <header
@@ -28,7 +30,10 @@ LoginProps) {
         isAbsolute ? 'fixed top-0 left-0`' : ''
       } w-full`}
     >
-      <div className="flex items-center justify-center gap-2">
+      <div
+        className="flex items-center justify-center gap-2 cursor-pointer"
+        onClick={() => router.push('/')}
+      >
         <Image
           src="/Subtract.svg"
           alt="logo"
@@ -36,7 +41,7 @@ LoginProps) {
           height={0}
           className="w-8 h-8 sm:w-8 sm:h-8"
         />
-        <p className="cursor-default sm:text-sm md:text-xl lg:text-2xl text-white font-semibold">
+        <p className="sm:text-sm md:text-xl lg:text-2xl text-white font-semibold">
           Taskify.ai
         </p>
       </div>

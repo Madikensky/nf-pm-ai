@@ -64,7 +64,7 @@ export default function LoginLeft({
       // setIsLoading(false);
       setError('');
 
-      router.push('/');
+      router.replace('/');
     } catch (e) {
       console.log(e);
       setIsLoading(false);

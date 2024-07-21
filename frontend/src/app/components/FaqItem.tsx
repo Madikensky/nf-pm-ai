@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 export interface FaqItemProps {
   question: string;
@@ -23,9 +24,14 @@ export default function FaqItem({ question, answer, isLast }: FaqItemProps) {
         </span>
         <span className="text-black">{isOpen ? '×' : '+'}</span>
       </button>
-      {isOpen && (
+      <CSSTransition in={isOpen} timeout={300} classNames="faq" unmountOnExit>
+        <div className="faq-content">
+          <p className="mt-2 text-xs sm:text-sm text-gray-600">{answer}</p>
+        </div>
+      </CSSTransition>
+      {/* {isOpen && (
         <p className="mt-2 text-xs sm:text-sm  text-gray-600">{answer}</p>
-      )}
+      )} */}
     </div>
   );
 }
