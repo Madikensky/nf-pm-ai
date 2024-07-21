@@ -15,7 +15,7 @@ export default function ChatBody({
   const [isBoardsOpen, setIsBoardsOpen] = useState(false);
 
   useEffect(() => {
-    console.log(chatHistory);
+    // console.log(chatHistory);
   }, [chatHistory]);
 
   return (

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+// import backendApiInstance from '@/lib/api';
 
 export default function ChatFooter({
   setChatHistory,
@@ -11,14 +12,6 @@ export default function ChatFooter({
 }: any) {
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
-  // const [error, setError] = useState('');
-
-  // const [chatHistory, setLocalChatHistory] = useState<
-  //   {
-  //     role: string;
-  //     parts: { text: string }[];
-  //   }[]
-  // >([]);
 
   const [chatHistory, setLocalChatHistory] = useState<
     {
@@ -29,57 +22,68 @@ export default function ChatFooter({
 
   const getGeminiResponse = async () => {
     try {
-      const savedTrelloToken = localStorage.getItem('trelloToken');
-      const savedTrelloAuth = localStorage.getItem('trelloAuth');
-      // setIsWaitingResponse(true);
-      setIsWaitingAIResponse(true);
-      const response = await axios.post('http://localhost:5000/gemini', {
-        userPrompt: userInput,
-        apiKey: savedTrelloToken,
-        token: savedTrelloAuth,
-        history: chatHistory,
-      });
+      const email = localStorage.getItem('email');
+      // setIsWaitingAIResponse(true);
 
-      // console.log(response);
+      try {
+        axios
+          .post('http://localhost:5000/get-tokens', { email: email })
+          .then((res) => {
+            // console.log(res);
+            const { trelloToken, trelloAuth } = res.data;
 
-      const data = response.data;
+            const savedTrelloToken = trelloToken;
+            const savedTrelloAuth = trelloAuth;
 
-      setChatHistory((prevHistory: any) => [
-        ...prevHistory,
-        {
-          // role: 'model',
-          // parts: [{ text: data }],
-          role: 'assistant',
-          content: data,
-        },
-      ]);
+            const requestToGPT = async () => {
+              const response = await axios
+                .post('http://localhost:5000/gemini', {
+                  userPrompt: userInput,
+                  apiKey: savedTrelloToken,
+                  token: savedTrelloAuth,
+                  history: chatHistory,
+                })
+                .finally(() => setIsWaitingAIResponse(false));
 
-      setLocalChatHistory((prevHistory: any) => [
-        ...prevHistory,
-        {
-          // role: 'model',
-          // parts: [{ text: data }],
-          role: 'assistant',
-          content: data,
-        },
-      ]);
-      // setLocalUserInput('');
-      setError('');
+              const data = response.data;
+
+              setChatHistory((prevHistory: any) => [
+                ...prevHistory,
+                {
+                  role: 'assistant',
+                  content: data,
+                },
+              ]);
+
+              setLocalChatHistory((prevHistory: any) => [
+                ...prevHistory,
+                {
+                  role: 'assistant',
+                  content: data,
+                },
+              ]);
+
+              const updateBoards = await axios.get(
+                `https://api.trello.com/1/members/me/boards?key=${trelloToken}&token=${trelloAuth}`
+              );
+
+              const boards = updateBoards.data;
+
+              localStorage.setItem('trelloBoards', JSON.stringify(boards));
+
+              setError('');
+            };
+
+            requestToGPT();
+          });
+      } catch (e) {
+        console.log('error on footer: ', e);
+      }
     } catch (e: any) {
       console.log(e);
       setError('Что-то пошло не так. Пожалуйста, попробуйте еще раз.');
     } finally {
       setIsWaitingAIResponse(false);
-
-      const apiKey = localStorage.getItem('trelloToken');
-      const apiToken = localStorage.getItem('trelloAuth');
-      const response = await axios.get(
-        `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
-      );
-
-      const boards = response.data;
-
-      localStorage.setItem('trelloBoards', JSON.stringify(boards));
     }
   };
 
@@ -133,6 +137,7 @@ export default function ChatFooter({
     setIsStarted(true);
     getGeminiResponse();
     setError(false);
+    setIsWaitingAIResponse(true);
   };
 
   return (

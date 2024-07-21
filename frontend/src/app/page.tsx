@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import ChatComponent from './components/ChatComponent';
 import Loading from './components/Loading';
 import { Analytics } from '@vercel/analytics/react';
+import axios from 'axios';
 
 export default function Home() {
   const router = useRouter();
@@ -17,13 +18,28 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const trelloToken = localStorage.getItem('trelloToken');
-    const trelloAuth = localStorage.getItem('trelloAuth');
+    const email = localStorage.getItem('email');
 
-    if (trelloToken && trelloAuth) {
-      setIsLogged(true);
+    if (email) {
+      try {
+        axios
+          .post('http://localhost:5000/get-tokens', { email: email })
+          .then((res) => {
+            // console.log(res);
+            const { trelloToken, trelloAuth } = res.data;
+            if (trelloToken && trelloAuth) {
+              setIsLogged(true);
+            }
+            setIsLoading(false);
+          });
+      } catch (e) {
+        console.log('error on main page: ', e);
+      }
+    } else {
+      // router.push('/');
+      setIsLogged(false);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   const handleLogin = () => {

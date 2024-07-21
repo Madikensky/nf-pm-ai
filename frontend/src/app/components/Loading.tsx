@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Loading() {
   return (
-    <div className="w-full sm:w-1/2 h-screen items-center justify-center flex">
+    <div className="w-full h-screen items-center justify-center flex">
       {/* <Image
         alt="loading"
         src="/download.gif"

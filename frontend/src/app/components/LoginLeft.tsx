@@ -8,60 +8,66 @@ import Loading from './Loading';
 
 export default function LoginLeft({
   setIsLoading,
+  error,
+  setError,
 }: {
   setIsLoading: (value: boolean) => void;
+  error: string;
+  setError: (value: string) => void;
 }) {
   const [trelloToken, setTrelloToken] = useState('');
   const [trelloAuth, setTrelloAuth] = useState('');
-  const [isLoading, setLocalIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState<string>('');
+  // const [isLoading, setLocalIsLoading] = useState(false);
+  // const [error, setError] = useState('');
   const router = useRouter();
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setIsLoading(true);
-    setLocalIsLoading(true);
+    // setLocalIsLoading(true);
+    setIsLoading(true);
 
     try {
+      const userEmail = email.trim();
       const apiKey = trelloToken.trim();
       const apiToken = trelloAuth.trim();
 
-      const response = await axios.post('http://localhost:5000/token_login', {
+      const response = await axios.post('http://localhost:5000/register', {
+        email: userEmail,
         trelloToken: apiKey,
         authToken: apiToken,
       });
+
+      // console.log('response:', response.data);
 
       // setIsLoading(false);
       // setIsLoading(true);
 
       // console.log('response:', response.data);
 
-      // const response = await axios.get(
-      //   `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
-      // );
+      const responseBoards = await axios.get(
+        `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
+      );
 
-      // const boards = response.data;
+      const boards = responseBoards.data;
 
-      // boards.forEach((board: any) => {
-      //   console.log('board url:', board.shortUrl);
-      //   console.log('board name:', board.name);
-      // });
+      localStorage.setItem('trelloBoards', JSON.stringify(boards));
+      localStorage.setItem('email', userEmail);
 
-      // localStorage.setItem('trelloBoards', JSON.stringify(boards));
-      // localStorage.setItem('trelloToken', apiKey);
-      // localStorage.setItem('trelloAuth', apiToken);
+      // setIsLoading(false);
+      setError('');
 
-      // router.push('/');
+      router.push('/');
     } catch (e) {
       console.log(e);
-      setError('Неверный Trello API Token или Trello Auth Token');
-      console.log(error);
       setIsLoading(false);
-      setLocalIsLoading(false);
+      setError('Неверный Trello API Token или Trello Auth Token');
+      console.log('error:', error);
+      // setLocalIsLoading(false);
     }
   };
 
@@ -78,8 +84,10 @@ export default function LoginLeft({
           Введите свой Trello API Token и Trello Auth Token для входа в свою
           учетную запись
         </p>
+        <InputField tokenType="Email" setToken={setEmail} />
         <InputField tokenType="Trello API Token" setToken={setTrelloToken} />
         <InputField tokenType="Trello Auth Token" setToken={setTrelloAuth} />
+        {/* <input placeholder="Ваш email" /> */}
         <button className="text-white font-medium lg:text-smaller sm:text-sm bg-main-color p-2 lg:p-4 rounded-md w-full sm:w-1/2 lg:w-1/4">
           Войти
         </button>

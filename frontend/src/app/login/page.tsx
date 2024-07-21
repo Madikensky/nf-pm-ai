@@ -8,6 +8,7 @@ import Loading from '../components/Loading';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   if (isLoading) {
     return <Loading />;
   }
@@ -15,8 +16,18 @@ export default function Login() {
     <div className="">
       <Header showLogin={false} isAbsolute={true} />
       <div className="flex flex-col sm:flex-row mt-20 sm:mt-0">
-        <LoginLeft setIsLoading={setIsLoading} />
-        <LoginRight />
+        {/* {isLoading ? (
+          <Loading />
+        ) : ( */}
+        <>
+          <LoginLeft
+            setIsLoading={setIsLoading}
+            error={error}
+            setError={setError}
+          />
+          <LoginRight />
+        </>
+        {/* )} */}
       </div>
     </div>
   );

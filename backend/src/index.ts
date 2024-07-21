@@ -6,20 +6,15 @@ import axios from 'axios';
 import OpenAI from 'openai';
 import context from './Context';
 import connectDB from './db';
-import { saveTokens, getTokens, Token } from './auth';
-const crypto = require('crypto');
-import middleware from './middleware';
-const { v4: uuidv4 } = require('uuid');
+import { getTokens, User } from './auth';
+
+import * as bcrypt from 'bcryptjs';
+import express from 'express';
+import cors from 'cors';
 
 config();
 
-// const fs = require('fs');
-// const path = require('path');
-
 const PORT = 5000 || process.env.PORT;
-
-const express = require('express');
-const cors = require('cors');
 
 const app = express();
 
@@ -32,38 +27,63 @@ connectDB().then(() => {
 app.use(cors());
 app.use(express.json());
 
-app.post('/token_login', async (req: Request, res: Response) => {
+app.post('/register', async (req: Request, res: Response) => {
   try {
-    const { trelloToken, authToken } = req.body;
+    // const { email, password, authToken, trelloToken } = req.body;
+    const { authToken, trelloToken, email } = req.body;
 
-    // console.log(trelloToken, authToken);
-
-    const response = await axios.get(
-      `https://api.trello.com/1/members/me/boards?key=${trelloToken}&token=${authToken}`
-    );
-
-    // console.log('response:', response.data);
-
-    const userId = uuidv4();
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(200).json({ message: 'User already exists' });
+      // console.log('User already exists');
+    }
+    //optional: add token trello and auth token validation using a simple if statement
 
     try {
-      await saveTokens(userId, trelloToken, authToken);
-      res.cookie('userId', userId, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      res.json({ userId });
-    } catch (error: any) {
-      console.error('Error in /token_login route:', error.message);
-      res.status(500).send('Internal Server Error');
+      const response = await axios.get(
+        `https://api.trello.com/1/members/me/boards?key=${trelloToken}&token=${authToken}`
+      );
+
+      const boards = response.data;
+
+      if (boards) {
+        // const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({
+          email,
+          // password: hashedPassword,
+          authToken,
+          trelloToken,
+        });
+
+        await user.save();
+        res.json({ message: 'User created' });
+      }
+    } catch (e) {
+      res.status(401).send('Неверный Trello API Token или Trello Auth Token');
     }
-  } catch (error: any) {
-    console.error('Error in /token_login route:', error.message);
-    res.status(401).send('Не авторизован');
+  } catch (e: any) {
+    console.log('registration error: ', e.message);
   }
 });
 
-app.post('/gemini', middleware, async (req: Request, res: Response) => {
+app.post('/get-tokens', async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    // const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+    const tokens = await getTokens(email);
+    // console.log(tokens);
+    res.json(tokens).status(200);
+    // res.json(boards).status(200);
+  } catch (e: any) {
+    console.log(e.message);
+  }
+});
+
+app.post('/gemini', async (req: Request, res: Response) => {
   try {
     const { userPrompt, apiKey, token, history } = req.body;
 
@@ -87,7 +107,7 @@ app.post('/gemini', middleware, async (req: Request, res: Response) => {
       model: 'gpt-4o-mini',
     });
 
-    completion.choices.forEach((choice) => console.log(choice.message));
+    // completion.choices.forEach((choice) => console.log(choice.message));
 
     // console.log(history);
 

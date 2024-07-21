@@ -24,7 +24,7 @@ export function TokenForm({
       const tokenT = localStorage.getItem('TrelloToken');
       const tokenA = localStorage.getItem('AuthToken');
       if (tokenT && tokenA) {
-        console.log('bar');
+        // console.log('bar');
         setTrelloToken(tokenT);
         setTrelloAuth(tokenA);
         setShowElement(false);
@@ -48,7 +48,7 @@ export function TokenForm({
         setTrelloAuth(trelloAuth);
         setTrelloToken(trelloToken);
         setShowElement(false);
-        console.log(e.data);
+        // console.log(e.data);
         setIsLoading(false);
       });
 
