@@ -27,7 +27,7 @@ export default function ChatFooter({
 
       try {
         axios
-          .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
+          .post('http://localhost:5000/get-tokens', {
             email: email,
           })
           .then((res) => {
@@ -39,7 +39,7 @@ export default function ChatFooter({
 
             const requestToGPT = async () => {
               const response = await axios
-                .post('https://nf-pm-ai-production.up.railway.app/gemini', {
+                .post('http://localhost:5000/gemini', {
                   userPrompt: userInput,
                   apiKey: savedTrelloToken,
                   token: savedTrelloAuth,

@@ -120,7 +120,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
         {
           role: 'assistant',
           content:
-            'Тебе нужно обработать запрос который тебе дает пользователь, и оставить только ту часть, где описывается что было выполнено. Чтобы было понятно и кратко. Делай все в формате Markdown и преобразуй текст в красивый и приятный для глаз стиль.',
+            'Тебе нужно обработать запрос который тебе дает пользователь, и оставить только важную часть, где описывается что было выполнено. Чтобы было понятно и кратко. Преобразуй текст в красивый и приятный для глаз стиль.',
         },
         { role: 'user', content: gptAnswer },
       ],
@@ -128,20 +128,38 @@ app.post('/gemini', async (req: Request, res: Response) => {
     });
 
     if (json) {
-      console.log('Ready json:', json);
       const data = JSON.parse(json);
+
+      // if (data.length === 1) {
+      //   console.log('был отправлен не массив объектов');
+      // }
 
       console.log('Parsed json', data);
 
       data.map((task: any) => {
+        const { name, desc, listName, boardName, due, start, members } =
+          task.params;
+
+        const currBoards = JSON.parse(boards!);
+
+        const queryParam = {
+          name,
+          desc,
+          due,
+          start,
+          members,
+          // idList: listId,
+          key: apiKey,
+          token: token,
+        };
+
+        for (let key in queryParam) {
+          if (!queryParam[key]) {
+            delete queryParam[key];
+          }
+        }
+
         if (task.action === 'addCard') {
-          const { name, desc, listName, boardName, due, start, members } =
-            task.params;
-
-          const currBoards = JSON.parse(boards!); // Additional check to handle undefined
-
-          // console.log('currBoards:', currBoards);
-
           currBoards.map((board: any) => {
             if (board.name === boardName) {
               const list = board.lists.find(
@@ -149,27 +167,44 @@ app.post('/gemini', async (req: Request, res: Response) => {
               );
 
               const listId = list.id;
+              queryParam['idList'] = listId;
 
-              const queryParam = {
-                name,
-                desc,
-                due,
-                start,
-                members,
-                idList: listId,
-                key: apiKey,
-                token: token,
-              };
-
-              for (let key in queryParam) {
-                if (!queryParam[key]) {
-                  delete queryParam[key];
-                }
-              }
-              console.log('query:', queryParam);
+              // console.log('query:', queryParam);
 
               axios
                 .post('https://api.trello.com/1/cards', null, {
+                  params: queryParam,
+                })
+                .then((e) => {
+                  // console.log('Final data:', e.data);
+                  return e.data;
+                })
+                .catch((e) => {
+                  gptAnswer = 'Ошибка при создании карточки';
+                  // throw new Error("Can't create card");
+                });
+            }
+          });
+        } else if (task.action === 'updateCard') {
+          currBoards.map((board: any) => {
+            if (board.name === boardName) {
+              // const list = board.lists.find(
+              //   (list: any) => list.map(())
+              // );
+              const list = board.lists.find((list: any) => {
+                return list.name === listName;
+              });
+
+              const card = list.cards.find((card: any) => {
+                return card.name === name;
+              });
+
+              const cardId = card.id;
+
+              console.log(card);
+
+              axios
+                .put(`https://api.trello.com/1/cards/${cardId}`, null, {
                   params: queryParam,
                 })
                 .then((e) => {
@@ -181,18 +216,17 @@ app.post('/gemini', async (req: Request, res: Response) => {
           });
         }
 
-        // console.log(gptAnswer);
-
         gptAnswer = handledAnswer.choices[0].message.content!;
       });
     } else {
       console.log('no');
     }
 
+    console.log(gptAnswer);
     res.send(gptAnswer);
   } catch (e) {
-    console.log(e);
-    console.log('request:', req.body);
+    console.log('some err?', e);
+    // console.log('request:', req.body);
     res.status(500).send({
       message: 'Возникла ошибка на сервере. Попробуйте изменить свой запрос',
     });
