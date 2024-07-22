@@ -72,15 +72,28 @@ export default function LoginRight() {
               color: '',
               weight: '600',
             },
+            { content: '<br>' },
+            { content: '<br>' },
+            {
+              content:
+                'Важно: в шаге ниже не перепутайте, создав "Секретный" ключ вместо Auth ключа.',
+            },
           ]}
         />
         <LoginRightSubHeading
-          title="Шаг 5: Сгенерируйте Trello Auth Token  "
+          title="Шаг 5: Сгенерируйте Trello Auth Token"
           subtitle={[
+            // {
+            //   content:
+            //     'Важно: не перепутайте, создав "Секретный" ключ вместо Auth ключа.',
+            // },
+            // { content: '<br>' },
+            // { content: '<br>' },
             {
               content:
                 'Справа от поля с вашим API ключом будет небольшой текст, нажмите там на cинее слово ',
             },
+
             {
               content: 'Token ',
               weight: '600',

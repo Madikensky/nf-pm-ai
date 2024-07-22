@@ -42,6 +42,11 @@ export default function LoginRightSubHeading({
                 </Link>
               }
             </span>
+          ) : str.content ===
+            'Важно: в шаге ниже не перепутайте, создав "Секретный" ключ вместо Auth ключа.' ? (
+            <span key={idx} className="text-red-600 font-semibold text-base">
+              {str.content}
+            </span>
           ) : (
             <span
               key={idx}
