@@ -54,7 +54,7 @@ LoginProps) {
         </button>
       )}
       {showProfile && showTrello && (
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row gap-5">
           <span
             className="flex flex-row items-center justify-center text-white cursor-pointer gap-1"
             onClick={() => setIsOpen(true)}

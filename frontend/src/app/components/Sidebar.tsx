@@ -8,6 +8,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
   const [boards, setBoards] = useState<any[]>([]);
   const [openIframe, setOpenIframe] = useState(false);
   const [currentBoard, setCurrentBoard] = useState('');
+  const [isBoardLoading, setIsBoardLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('trelloBoards')) {
@@ -17,8 +18,10 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
   }, []);
 
   const reloadBoard = () => {
+    setIsBoardLoading(true);
     if (iframeRef.current) {
       iframeRef.current.src = iframeRef.current.src;
+      // setIsBoardLoading(false);
     }
   };
 
@@ -28,16 +31,22 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
         isOpen ? 'open' : ''
       }`}
     >
-      <div className="p-5 bg-main-color flex items-end justify-between sm:justify-end gap-4">
+      <div className="p-5 bg-main-color flex items-end justify-between sm:justify-end gap-4 pt-6">
         {openIframe && (
-          <Image
-            src={'/Reboot.svg'}
-            width={27}
-            height={27}
-            alt="update board"
-            className="cursor-pointer"
+          <div
+            className="flex flex-row gap-2 text-white items-center cursor-pointer"
             onClick={reloadBoard}
-          />
+          >
+            <span>Обновить доску</span>
+            <Image
+              src={'/Reboot.svg'}
+              width={27}
+              height={27}
+              alt="update board"
+              className="cursor-pointer"
+              // onClick={reloadBoard}
+            />
+          </div>
         )}
         <Image
           src={'/Close.svg'}
