@@ -103,7 +103,8 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
               изменениями в реальном времени.
             </span>
             <span>
-              Найдите значок, как показано ниже, возле названия доски,
+              Найдите значок на сайте Trello рядом с названием доски, и как
+              показано ниже,
             </span>
             <span className="flex items-center justify-center">
               <Image src="/icon.svg" alt="d" width={25} height={25} />
