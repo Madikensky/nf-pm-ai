@@ -8,17 +8,18 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
   const [boards, setBoards] = useState<any[]>([]);
   const [openIframe, setOpenIframe] = useState(false);
   const [currentBoard, setCurrentBoard] = useState('');
-  const [isBoardLoading, setIsBoardLoading] = useState(false);
+  // const [isBoardLoading, setIsBoardLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('trelloBoards')) {
       setBoards(JSON.parse(localStorage.getItem('trelloBoards') as string));
     }
+
     // console.log(currentBoard);
   }, []);
 
   const reloadBoard = () => {
-    setIsBoardLoading(true);
+    // setIsBoardLoading(true);
     if (iframeRef.current) {
       iframeRef.current.src = iframeRef.current.src;
       // setIsBoardLoading(false);
