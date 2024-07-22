@@ -89,141 +89,129 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const boards = await new BoardsInfo(apiKey, token).main();
 
-    history.push({
-      role: 'system',
+    if (boards) {
+      history.push({
+        role: 'system',
 
-      content:
-        'Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"' +
-        boards,
-    });
-
-    const openai = new OpenAI({ apiKey: process.env.GPT_TOKEN });
-    const completion = await openai.chat.completions.create({
-      messages: [
-        { role: 'system', content: context },
-        ...history,
-        { role: 'user', content: userPrompt },
-      ],
-      model: 'gpt-4o-mini',
-    });
-
-    // completion.choices.forEach((choice) => console.log(choice.message));
-
-    // console.log(history);
-
-    let gptAnswer = completion.choices[0].message.content!;
-
-    const json = containsJSON(gptAnswer);
-
-    const handledAnswer = await openai.chat.completions.create({
-      messages: [
-        {
-          role: 'assistant',
-          content:
-            'Тебе нужно обработать запрос который тебе дает пользователь, и оставить только важную часть, где описывается что было выполнено. Чтобы было понятно и кратко. Преобразуй текст в красивый и приятный для глаз стиль.',
-        },
-        { role: 'user', content: gptAnswer },
-      ],
-      model: 'gpt-4o-mini',
-    });
-
-    if (json) {
-      const data = JSON.parse(json);
-
-      // if (data.length === 1) {
-      //   console.log('был отправлен не массив объектов');
-      // }
-
-      console.log('Parsed json', data);
-
-      data.map((task: any) => {
-        const { name, desc, listName, boardName, due, start, members } =
-          task.params;
-
-        const currBoards = JSON.parse(boards!);
-
-        const queryParam = {
-          name,
-          desc,
-          due,
-          start,
-          members,
-          // idList: listId,
-          key: apiKey,
-          token: token,
-        };
-
-        for (let key in queryParam) {
-          if (!queryParam[key]) {
-            delete queryParam[key];
-          }
-        }
-
-        if (task.action === 'addCard') {
-          currBoards.map((board: any) => {
-            if (board.name === boardName) {
-              const list = board.lists.find(
-                (list: any) => list.name === listName
-              );
-
-              const listId = list.id;
-              queryParam['idList'] = listId;
-
-              // console.log('query:', queryParam);
-
-              axios
-                .post('https://api.trello.com/1/cards', null, {
-                  params: queryParam,
-                })
-                .then((e) => {
-                  // console.log('Final data:', e.data);
-                  return e.data;
-                })
-                .catch((e) => {
-                  gptAnswer = 'Ошибка при создании карточки';
-                  // throw new Error("Can't create card");
-                });
-            }
-          });
-        } else if (task.action === 'updateCard') {
-          currBoards.map((board: any) => {
-            if (board.name === boardName) {
-              // const list = board.lists.find(
-              //   (list: any) => list.map(())
-              // );
-              const list = board.lists.find((list: any) => {
-                return list.name === listName;
-              });
-
-              const card = list.cards.find((card: any) => {
-                return card.name === name;
-              });
-
-              const cardId = card.id;
-
-              console.log(card);
-
-              axios
-                .put(`https://api.trello.com/1/cards/${cardId}`, null, {
-                  params: queryParam,
-                })
-                .then((e) => {
-                  // console.log('Final data:', e.data);
-                  return e.data;
-                })
-                .catch((e) => console.log(e));
-            }
-          });
-        }
-
-        gptAnswer = handledAnswer.choices[0].message.content!;
+        content:
+          'Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"' +
+          boards,
       });
-    } else {
-      console.log('no');
-    }
 
-    console.log(gptAnswer);
-    res.send(gptAnswer);
+      const openai = new OpenAI({ apiKey: process.env.GPT_TOKEN });
+      const completion = await openai.chat.completions.create({
+        messages: [
+          { role: 'system', content: context },
+          ...history,
+          { role: 'user', content: userPrompt },
+        ],
+        model: 'gpt-4o',
+        temperature: 0.5,
+      });
+
+      let gptAnswer = completion.choices[0].message.content!;
+
+      const json = containsJSON(gptAnswer);
+
+      const handledAnswer = await openai.chat.completions.create({
+        messages: [
+          {
+            role: 'assistant',
+            content:
+              'Тебе нужно обработать запрос который тебе дает пользователь, и оставить только важную часть, где описывается что было выполнено(название карточек/списков/досок которые были удалены/созданы/обновлены). Чтобы было понятно и кратко. Преобразуй текст в красивый и приятный для глаз стиль. Не предоставляй пользователю json объект, так как он не поймет что это',
+          },
+          { role: 'user', content: gptAnswer },
+        ],
+        model: 'gpt-4o-mini',
+      });
+
+      if (json) {
+        const data = JSON.parse(json);
+
+        // if (data.length === 1) {
+        //   console.log('был отправлен не массив объектов');
+        // }
+
+        console.log('Parsed json', data);
+
+        data.map((task: any) => {
+          const {
+            name,
+            desc,
+            listName,
+            boardName,
+            due,
+            start,
+            members,
+            listId,
+            cardId,
+          } = task.params;
+          const { action } = task;
+
+          const currBoards = JSON.parse(boards);
+
+          const queryParam = {
+            name,
+            desc,
+            due,
+            start,
+            members,
+            idList: listId,
+            cardId,
+            key: apiKey,
+            token: token,
+          };
+
+          for (let key in queryParam) {
+            if (!queryParam[key]) {
+              delete queryParam[key];
+            }
+          }
+
+          if (action === 'addCard') {
+            axios
+              .post('https://api.trello.com/1/cards', null, {
+                params: queryParam,
+              })
+              .then((e) => {
+                console.log(e.data);
+                return e.data;
+              })
+              .catch((e) => {
+                console.log(e.data);
+              });
+          } else if (action === 'updateCard') {
+            axios
+              .put(`https://api.trello.com/1/cards/${cardId}`, null, {
+                params: queryParam,
+              })
+              .then((e) => {
+                console.log(e);
+                return e.data;
+              })
+              .catch((e) => console.log(e.data));
+          } else if (action === 'deleteCard') {
+            axios
+              .delete(`https://api.trello.com/1/cards/${cardId}`, {
+                params: { key: apiKey, token: token },
+              })
+              .then((e) => {
+                console.log(e);
+                return e.data;
+              })
+              .catch((e) => console.log(e.data));
+          }
+
+          gptAnswer = handledAnswer.choices[0].message.content!;
+        });
+      } else {
+        console.log('no json found');
+      }
+      console.log(gptAnswer);
+      res.send(gptAnswer);
+    } else {
+      console.log('no boards found');
+    }
   } catch (e) {
     console.log('some err?', e);
     // console.log('request:', req.body);
