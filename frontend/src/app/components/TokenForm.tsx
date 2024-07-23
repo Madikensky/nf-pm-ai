@@ -40,7 +40,7 @@ export function TokenForm({
     setIsLoading(true);
 
     axios
-      .post('http://localhost:5000/token_login', {
+      .post('https://nf-pm-ai-production.up.railway.app/token_login', {
         trelloToken,
         authToken: trelloAuth,
       })
