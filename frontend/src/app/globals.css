@@ -284,3 +284,7 @@ header {
 .faq-content {
   overflow: hidden;
 }
+
+.loading {
+  background-color: rgb(250 250 250);
+}

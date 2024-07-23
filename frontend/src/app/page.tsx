@@ -40,7 +40,7 @@ export default function Home() {
     } else {
       // router.push('/');
       setIsLogged(false);
-      setIsLoading(false);
+      setIsLoading(true);
     }
   }, []);
 
