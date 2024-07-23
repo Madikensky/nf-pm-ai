@@ -109,8 +109,15 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
             <span className="flex items-center justify-center">
               <Image src="/icon.svg" alt="d" width={25} height={25} />
             </span>
-            <span className="">
-              нажмите на него и выберите &ldquo;Публичная видимость&rdquo;.
+            <span className="">нажмите на него и выберите</span>
+            <span className="flex items-center justify-center gap-2">
+              <Image
+                src={'/public.svg'}
+                width={25}
+                height={25}
+                alt="public-mode"
+              />
+              &ldquo;Публичная&rdquo;
             </span>
             <span className="text-pink-100">
               Если вы удалили старую доску, или добавили новую - не забудьте
