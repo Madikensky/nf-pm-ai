@@ -23,7 +23,7 @@ export default function Home() {
     if (email) {
       try {
         axios
-          .post('http://localhost:5000/get-tokens', {
+          .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
             email: email,
           })
           .then((res) => {
@@ -40,7 +40,7 @@ export default function Home() {
     } else {
       // router.push('/');
       setIsLogged(false);
-      setIsLoading(true);
+      setIsLoading(false);
     }
   }, []);
 
