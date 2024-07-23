@@ -13,7 +13,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
   useEffect(() => {
     if (localStorage.getItem('email')) {
       axios
-        .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
+        .post('http://localhost:5000/get-tokens', {
           email: localStorage.getItem('email'),
         })
         .then((res) => {
