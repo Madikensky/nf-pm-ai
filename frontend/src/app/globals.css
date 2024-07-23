@@ -162,6 +162,8 @@ header {
   align-items: start;
 }
 
+
+
 .chat-container {
   /* max-height: 468px; */
   max-height: 72vh;
@@ -177,6 +179,24 @@ header {
 
 
 .chat-container::-webkit-scrollbar-thumb {
+  background-color: #818B99;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    background-clip: content-box;
+}
+
+
+ .sidebar {
+  max-height: 100px;
+  overflow: auto;
+ }
+
+.sidebar::-webkit-scrollbar {
+  width: 11px;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
   background-color: #818B99;
     border: 3px solid transparent;
     border-radius: 10px;
@@ -203,6 +223,8 @@ header {
   .user-prompt {
     max-width: 50%;
   }
+
+  
 }
 
 @media (min-width:1024px) {
@@ -218,6 +240,10 @@ header {
     max-width: 40%;
     font-size: 16px;
     
+  }
+
+  .sidebar {
+    max-height: 250px;
   }
 }
 

@@ -75,7 +75,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
           <h1 className="font-semibold text-xl text-light-blue">
             Ваши доски Trello:
           </h1>
-          <div className="flex flex-col gap-4 w-full p-2">
+          <div className="flex flex-col gap-4 w-full p-2 sidebar">
             {boards.length !== 0 &&
               boards.map((board, id) => (
                 <div
