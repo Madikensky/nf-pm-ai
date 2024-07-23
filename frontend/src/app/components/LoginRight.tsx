@@ -100,25 +100,27 @@ export default function LoginRight() {
             },
 
             {
-              content: 'Token ',
+              content: 'token ',
               weight: '600',
             },
             {
               content: 'или ',
             },
             {
-              content: 'Tокен ',
+              content: 'токен ',
               weight: '600',
             },
+            { content: 'и новом окне нажмите ' },
+            { content: 'allow. ', weight: '600' },
             {
-              content: 'и сгенерируйте ваш ',
+              content: 'После этого вам дадут ',
             },
             {
               content: 'Trello Auth Token ',
               weight: '600',
             },
             {
-              content: 'и вставьте его во второе поле. ',
+              content: 'который вы должны вставить во второе поле. ',
             },
             { content: '<br>' },
             { content: '<br>' },

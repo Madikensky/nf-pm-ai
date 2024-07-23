@@ -45,20 +45,6 @@ export default function LoginLeft({
         }
       );
 
-      // console.log('response:', response.data);
-
-      // setIsLoading(false);
-      // setIsLoading(true);
-
-      // console.log('response:', response.data);
-
-      const responseBoards = await axios.get(
-        `https://api.trello.com/1/members/me/boards?key=${apiKey}&token=${apiToken}`
-      );
-
-      const boards = responseBoards.data;
-
-      localStorage.setItem('trelloBoards', JSON.stringify(boards));
       localStorage.setItem('email', userEmail);
 
       // setIsLoading(false);

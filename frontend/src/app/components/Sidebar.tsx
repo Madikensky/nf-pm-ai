@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import Loading from './Loading';
+import axios from 'axios';
 
 export default function SideBar({ isOpen, setIsOpen }: any) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -8,11 +9,26 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
   const [boards, setBoards] = useState<any[]>([]);
   const [openIframe, setOpenIframe] = useState(false);
   const [currentBoard, setCurrentBoard] = useState('');
-  // const [isBoardLoading, setIsBoardLoading] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('trelloBoards')) {
-      setBoards(JSON.parse(localStorage.getItem('trelloBoards') as string));
+    if (localStorage.getItem('email')) {
+      axios
+        .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
+          email: localStorage.getItem('email'),
+        })
+        .then((res) => {
+          // console.log(res);
+          const { trelloToken, trelloAuth } = res.data;
+          const savedTrelloToken = trelloToken;
+          const savedTrelloAuth = trelloAuth;
+          (async () => {
+            const responseBoards = await axios.get(
+              `https://api.trello.com/1/members/me/boards?key=${savedTrelloToken}&token=${savedTrelloAuth}`
+            );
+            const boards = responseBoards.data;
+            setBoards(boards);
+          })();
+        });
     }
 
     // console.log(currentBoard);
