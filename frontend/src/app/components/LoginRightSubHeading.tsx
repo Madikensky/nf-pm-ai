@@ -1,13 +1,16 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface RightSubheadingProps {
   title: string;
   subtitle: { content: string; color?: string; weight?: string }[];
+  image?: string;
 }
 
 export default function LoginRightSubHeading({
   title,
   subtitle,
+  image,
 }: RightSubheadingProps) {
   return (
     <div className="flex flex-col gap-2 w-full break-words">
@@ -15,6 +18,15 @@ export default function LoginRightSubHeading({
         {title}
       </h2>
       <p className="text-xs sm:text-sm  w-full">
+        {image && (
+          <Image
+            src={image}
+            alt="Trello API Key"
+            width={500}
+            height={400}
+            className="rounded-md mb-5"
+          />
+        )}
         {subtitle.map((str, idx) =>
           str.content === '<br>' ? (
             <br key={idx} />

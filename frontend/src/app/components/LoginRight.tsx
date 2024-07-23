@@ -49,9 +49,13 @@ export default function LoginRight() {
           title="Шаг 3: Заполните небольшую форму "
           subtitle={[
             {
-              content:
-                'Заполните поля почты и название вашего проекта и нажмите ',
+              content: 'Заполните все поля кроме ',
             },
+            {
+              content: '"URL коннектора iframe (требуется для улучшения)"',
+              weight: '600',
+            },
+            { content: ' и нажмите на кнопку ' },
             { content: 'Создать ', weight: '600' },
             { content: 'или ' },
             { content: 'Create.', weight: '600' },
@@ -82,6 +86,7 @@ export default function LoginRight() {
         />
         <LoginRightSubHeading
           title="Шаг 5: Сгенерируйте Trello Auth Token"
+          image="/logRight.png"
           subtitle={[
             // {
             //   content:
