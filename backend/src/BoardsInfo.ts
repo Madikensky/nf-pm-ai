@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Trello from 'trello';
 
 interface Card {
@@ -19,8 +20,12 @@ interface Board {
 
 class BoardsInfo {
   private trello: any;
+  private apiKey: string;
+  private token: string;
 
   constructor(apiKey: string, token: string) {
+    this.apiKey = apiKey;
+    this.token = token;
     this.trello = new Trello(apiKey, token);
   }
 
@@ -32,9 +37,31 @@ class BoardsInfo {
         );
       });
 
+      const boardsWithMembers = await Promise.all(
+        boardsData.map(async (board) => {
+          const memberPromises = board.memberships.map(async (member) => {
+            const memberId = member.idMember;
+            const url = `https://api.trello.com/1/members/${memberId}?key=${this.apiKey}&token=${this.token}`;
+            const response = await axios.get(url);
+            return { memberName: response.data.fullName, memberId };
+          });
+
+          const members = await Promise.all(memberPromises);
+
+          // console.log('members:', members);
+
+          return members;
+          // name: board.name,
+          // id: board.id,
+
+          // lists: [],
+        })
+      );
+
       const boards: Board[] = boardsData.map((board) => ({
         name: board.name,
         id: board.id,
+        // members: [...boardsWithMembers],
         lists: [],
       }));
 
@@ -95,6 +122,7 @@ class BoardsInfo {
     try {
       const boardsInfo = await this.getBoardsInfo();
       const textData = JSON.stringify(boardsInfo, null, 2);
+
       return textData;
     } catch (err) {
       console.error('Main function error:', err);

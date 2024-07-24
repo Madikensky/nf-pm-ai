@@ -89,13 +89,22 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const boards = await new BoardsInfo(apiKey, token).main();
 
+    // console.log('boards: \n', boards);
+
+    const today = new Date();
+
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+
+    const formattedDate = `Current date in MM.DD.YYYY format: ${month}.${day}.${year}`;
+
     if (boards) {
       history.push({
         role: 'system',
 
-        content:
-          'Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"' +
-          boards,
+        content: `Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"'
+          ${boards}, 'также, вот тебе предоставляется дата на данный момент: ${formattedDate}`,
       });
 
       const openai = new OpenAI({ apiKey: process.env.GPT_TOKEN });
@@ -148,8 +157,6 @@ app.post('/gemini', async (req: Request, res: Response) => {
           } = task.params;
           const { action } = task;
 
-          const currBoards = JSON.parse(boards);
-
           const queryParam = {
             name,
             desc,
@@ -176,7 +183,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 params: queryParam,
               })
               .then((e) => {
-                console.log(e.data);
+                // console.log(e.data);
+                console.log('dfg');
                 return e.data;
               })
               .catch((e) => {
