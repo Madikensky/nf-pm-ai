@@ -3,12 +3,19 @@
 import Header from '../components/Header';
 import LoginLeft from '../components/LoginLeft';
 import LoginRight from '../components/LoginRight';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Loading from '../components/Loading';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
+  useEffect(() => {
+    if (localStorage.getItem('email')) {
+      router.push('/');
+    }
+  });
   if (isLoading) {
     return <Loading />;
   }

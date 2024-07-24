@@ -89,7 +89,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const boards = await new BoardsInfo(apiKey, token).main();
 
-    // console.log('boards: \n', boards);
+    console.log('boards: \n', boards);
 
     const today = new Date();
 
@@ -133,6 +133,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
         ],
         model: 'gpt-4o-mini',
       });
+
+      console.log(json);
 
       if (json) {
         const data = JSON.parse(json);
@@ -187,7 +189,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 return e.data;
               })
               .catch((e) => {
-                console.log('error', e);
+                console.log('error:', e.response.data);
               });
           } else if (action === 'updateCard') {
             axios

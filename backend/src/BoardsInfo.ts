@@ -1,14 +1,16 @@
 import axios from 'axios';
-import Trello from 'trello';
+import bodyParser from 'body-parser';
+// import Trello from 'trello';
 
 interface Card {
   name: string;
-  id: string;
+  cardId: string;
+  cardMembers: string[];
 }
 
 interface List {
   name: string;
-  id: string;
+  listId: string;
   cards: Card[];
 }
 
@@ -16,6 +18,7 @@ interface Board {
   name: string;
   id: string;
   lists: List[];
+  members: string[];
 }
 
 class BoardsInfo {
@@ -26,97 +29,103 @@ class BoardsInfo {
   constructor(apiKey: string, token: string) {
     this.apiKey = apiKey;
     this.token = token;
-    this.trello = new Trello(apiKey, token);
+    // this.trello = new Trello(apiKey, token);
   }
 
-  async getBoardsInfo(): Promise<Board[]> {
+  async getBoardsInfo() {
     try {
-      const boardsData = await new Promise<any[]>((resolve, reject) => {
-        this.trello.getBoards('me', (err, data) =>
-          err ? reject(err) : resolve(data)
-        );
-      });
+      const boards = await axios
+        .get(
+          `https://api.trello.com/1/members/me?key=${this.apiKey}&token=${this.token}`
+        )
+        .then((e) => e.data.idBoards);
 
-      // const boardsWithMembers = await Promise.all(
-      //   boardsData.map(async (board) => {
-      //     try {
-      //       const memberPromises = board.memberships.map(async (member) => {
-      //         const memberId = member.idMember;
-      //         const url = `https://api.trello.com/1/members/${memberId}?key=${this.apiKey}&token=${this.token}`;
-      //         const response = await axios.get(url);
-      //         return { memberName: response.data.fullName, memberId };
-      //       });
+      const boardsWithName = await Promise.all(
+        boards.map(async (board: any) => {
+          return await axios
+            .get(
+              `https://api.trello.com/1/boards/${board}?key=${this.apiKey}&token=${this.token}`
+            )
+            .then((e) => {
+              return {
+                boardName: e.data.name,
+                boardId: e.data.id,
+              };
+            });
+        })
+      );
 
-      //       const members = await Promise.all(memberPromises);
-
-      //       return board;
-
-      //     } catch (err) {
-      //       console.error(`Error fetching members for board ${board.name}:`, err);
-      //       return board;
-      //   })
-      // );
-
-      const boards: Board[] = boardsData.map((board) => ({
-        name: board.name,
-        id: board.id,
-        // members: [...boardsWithMembers],
-        lists: [],
-      }));
+      const boardsWithMembers = await Promise.all(
+        boardsWithName.map(async (board) => {
+          return await axios
+            .get(
+              `https://api.trello.com/1/boards/${board.boardId}/memberships?key=${this.apiKey}&token=${this.token}`
+            )
+            .then(async (e) => {
+              return {
+                ...board,
+                members: await Promise.all(
+                  e.data.map(async (member: any) => {
+                    const { idMember } = member;
+                    return await axios
+                      .get(
+                        `https://api.trello.com/1/members/${idMember}?key=${this.apiKey}&token=${this.token}`
+                      )
+                      .then((e) => {
+                        return {
+                          memberId: e.data.id,
+                          memberName: e.data.fullName,
+                        };
+                      });
+                  })
+                ),
+              };
+            });
+        })
+      );
 
       const boardsWithLists = await Promise.all(
-        boards.map(async (board) => {
-          try {
-            const lists = await new Promise<any[]>((resolve, reject) => {
-              this.trello.getListsOnBoard(board.id, 'name', (err, lists) =>
-                err ? reject(err) : resolve(lists)
-              );
+        boardsWithMembers.map(async (board) => {
+          return await axios
+            .get(
+              `https://api.trello.com/1/boards/${board.boardId}/lists?key=${this.apiKey}&token=${this.token}`
+            )
+            .then(async (e) => {
+              return {
+                ...board,
+                lists: await Promise.all(
+                  e.data.map(async (list: any) => {
+                    return {
+                      listName: list.name,
+                      listId: list.id,
+                      cards: await axios
+                        .get(
+                          `https://api.trello.com/1/lists/${list.id}/cards?key=${this.apiKey}&token=${this.token}`
+                        )
+                        .then((e) => {
+                          return e.data.map((card: any) => {
+                            // console.log(card);
+                            return {
+                              cardName: card.name,
+                              cardId: card.id,
+                              cardMembers: card.idMembers,
+                            };
+                          });
+                        }),
+                    };
+                  })
+                ),
+              };
             });
-            board.lists = lists.map((list) => ({
-              name: list.name,
-              id: list.id,
-              cards: [],
-            }));
-            return board;
-          } catch (err) {
-            console.error(`Error fetching lists for board ${board.name}:`, err);
-            return board;
-          }
         })
       );
 
-      const boardsWithListsAndCards = await Promise.all(
-        boardsWithLists.map(async (board) => {
-          try {
-            await Promise.all(
-              board.lists.map(async (list) => {
-                const cards = await new Promise<any[]>((resolve, reject) => {
-                  this.trello.getCardsOnList(list.id, (err, cards) =>
-                    err ? reject(err) : resolve(cards)
-                  );
-                });
-
-                list.cards = cards.map((card) => ({
-                  name: card.name,
-                  id: card.id,
-                }));
-              })
-            );
-            return board;
-          } catch (err) {
-            console.error(`Error fetching cards for board ${board.name}:`, err);
-            return board;
-          }
-        })
-      );
-
-      return boardsWithListsAndCards;
+      return boardsWithLists;
     } catch (err) {
       console.error('Error fetching board info:', err);
       throw err;
     }
   }
-
   async main() {
     try {
       const boardsInfo = await this.getBoardsInfo();
