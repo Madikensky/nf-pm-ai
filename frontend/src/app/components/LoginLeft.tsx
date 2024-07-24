@@ -36,11 +36,14 @@ export default function LoginLeft({
       const apiKey = trelloToken.trim();
       const apiToken = trelloAuth.trim();
 
-      const response = await axios.post('http://localhost:5000/register', {
-        email: userEmail,
-        trelloToken: apiKey,
-        authToken: apiToken,
-      });
+      const response = await axios.post(
+        'https://nf-pm-ai-production.up.railway.app/register',
+        {
+          email: userEmail,
+          trelloToken: apiKey,
+          authToken: apiToken,
+        }
+      );
 
       localStorage.setItem('email', userEmail);
 
