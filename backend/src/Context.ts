@@ -52,7 +52,7 @@ const context = `
       "boardName": "Table 1",
       "start": "08.08.2024",
       "due": "11.08.2024",
-      "members": ["Madiyar", "Di", "Sergey"]
+      "members": ["Madiyar ID", "Di ID", "Sergey ID"]
       "listId": 'id'
       "
     }
@@ -79,7 +79,7 @@ const context = `
       "boardName": "Table 1",
       "start": "10.08.2024",
       "due": "12.08.2024",
-      "addMembers": ["Aiman", "Anara", "Sergey"]
+      "addMembers": ["updated members id list"]
       "cardId": 'id'
       "listId": 'id'
     }
@@ -87,7 +87,9 @@ const context = `
 ]
 """
 
-Пример неправильного объекта, который не нужно генерировать:
+При обновлении карточки когда нужно добавить новых участников, ты не должен удалять старых участников карточки, если этого не пожелает сам пользователь.
+
+Пример неправильного объекта, который нельзя генерировать, и который ты не умеешь генерировать:
 
 """json
 {

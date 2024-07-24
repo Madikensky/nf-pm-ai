@@ -89,7 +89,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const boards = await new BoardsInfo(apiKey, token).main();
 
-    console.log('boards: \n', boards);
+    // console.log('boards: \n', boards);
 
     const today = new Date();
 
@@ -134,7 +134,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
         model: 'gpt-4o-mini',
       });
 
-      console.log(json);
+      // console.log(json);
 
       if (json) {
         const data = JSON.parse(json);
@@ -144,9 +144,11 @@ app.post('/gemini', async (req: Request, res: Response) => {
         // }
 
         console.log('Parsed json', data);
-        console.log(boards[0]);
+        // console.log(boards[0]);
 
         data.map((task: any) => {
+          console.log(task.params.addMembers);
+
           const {
             name,
             desc,
@@ -157,6 +159,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
             members,
             listId,
             cardId,
+            addMembers,
+            removeMembers,
           } = task.params;
           const { action } = task;
 
@@ -165,12 +169,18 @@ app.post('/gemini', async (req: Request, res: Response) => {
             desc,
             due,
             start,
-            members,
             idList: listId,
             cardId,
             key: apiKey,
             token: token,
+            idMembers: addMembers
+              ? addMembers
+              : removeMembers
+              ? removeMembers
+              : undefined,
           };
+
+          console.log(queryParam);
 
           for (let key in queryParam) {
             if (!queryParam[key]) {
@@ -197,7 +207,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 params: queryParam,
               })
               .then((e) => {
-                console.log(e);
+                // console.log(e);
                 return e.data;
               })
               .catch((e) => console.log(e));
@@ -207,7 +217,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 params: { key: apiKey, token: token },
               })
               .then((e) => {
-                console.log(e);
+                // console.log(e);
                 return e.data;
               })
               .catch((e) => console.log(e));
