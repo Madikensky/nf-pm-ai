@@ -37,26 +37,25 @@ class BoardsInfo {
         );
       });
 
-      const boardsWithMembers = await Promise.all(
-        boardsData.map(async (board) => {
-          const memberPromises = board.memberships.map(async (member) => {
-            const memberId = member.idMember;
-            const url = `https://api.trello.com/1/members/${memberId}?key=${this.apiKey}&token=${this.token}`;
-            const response = await axios.get(url);
-            return { memberName: response.data.fullName, memberId };
-          });
+      // const boardsWithMembers = await Promise.all(
+      //   boardsData.map(async (board) => {
+      //     try {
+      //       const memberPromises = board.memberships.map(async (member) => {
+      //         const memberId = member.idMember;
+      //         const url = `https://api.trello.com/1/members/${memberId}?key=${this.apiKey}&token=${this.token}`;
+      //         const response = await axios.get(url);
+      //         return { memberName: response.data.fullName, memberId };
+      //       });
 
-          const members = await Promise.all(memberPromises);
+      //       const members = await Promise.all(memberPromises);
 
-          // console.log('members:', members);
+      //       return board;
 
-          return members;
-          // name: board.name,
-          // id: board.id,
-
-          // lists: [],
-        })
-      );
+      //     } catch (err) {
+      //       console.error(`Error fetching members for board ${board.name}:`, err);
+      //       return board;
+      //   })
+      // );
 
       const boards: Board[] = boardsData.map((board) => ({
         name: board.name,

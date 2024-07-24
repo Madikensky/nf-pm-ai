@@ -103,7 +103,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
       history.push({
         role: 'system',
 
-        content: `Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Данные представлены в следующем формате:\n\n"'
+        content: `Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Извлекай из данных правильно id списков, досок, карточек для того чтобы делать разные махинации с ними. Данные представлены в следующем формате:\n\n"'
           ${boards}, 'также, вот тебе предоставляется дата на данный момент: ${formattedDate}`,
       });
 
@@ -142,6 +142,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
         // }
 
         console.log('Parsed json', data);
+        console.log(boards[0]);
 
         data.map((task: any) => {
           const {
@@ -175,8 +176,6 @@ app.post('/gemini', async (req: Request, res: Response) => {
             }
           }
 
-          console.log('queryParam', queryParam);
-
           if (action === 'addCard') {
             axios
               .post('https://api.trello.com/1/cards', null, {
@@ -184,11 +183,11 @@ app.post('/gemini', async (req: Request, res: Response) => {
               })
               .then((e) => {
                 // console.log(e.data);
-                console.log('dfg');
+                // console.log('dfg');
                 return e.data;
               })
               .catch((e) => {
-                console.log(e.data);
+                console.log('error', e);
               });
           } else if (action === 'updateCard') {
             axios
@@ -199,7 +198,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 console.log(e);
                 return e.data;
               })
-              .catch((e) => console.log(e.data));
+              .catch((e) => console.log(e));
           } else if (action === 'deleteCard') {
             axios
               .delete(`https://api.trello.com/1/cards/${cardId}`, {
@@ -209,7 +208,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 console.log(e);
                 return e.data;
               })
-              .catch((e) => console.log(e.data));
+              .catch((e) => console.log(e));
           }
 
           gptAnswer = handledAnswer.choices[0].message.content!;
