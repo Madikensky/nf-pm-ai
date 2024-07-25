@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import Loading from './Loading';
 import axios from 'axios';
+import url from '../lib/url';
 
 export default function SideBar({ isOpen, setIsOpen }: any) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -13,7 +14,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
   useEffect(() => {
     if (localStorage.getItem('email')) {
       axios
-        .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
+        .post(`${url}/get-tokens`, {
           email: localStorage.getItem('email'),
         })
         .then((res) => {

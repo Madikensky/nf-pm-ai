@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import url from '../lib/url';
 // import backendApiInstance from '@/lib/api';
 
 export default function ChatFooter({
@@ -27,7 +28,7 @@ export default function ChatFooter({
 
       try {
         axios
-          .post('https://nf-pm-ai-production.up.railway.app/get-tokens', {
+          .post(`${url}/get-tokens`, {
             email: email,
           })
           .then((res) => {
@@ -39,7 +40,7 @@ export default function ChatFooter({
 
             const requestToGPT = async () => {
               const response = await axios
-                .post('https://nf-pm-ai-production.up.railway.app/gemini', {
+                .post(`${url}/gemini`, {
                   userPrompt: userInput,
                   apiKey: savedTrelloToken,
                   token: savedTrelloAuth,

@@ -32,7 +32,9 @@ const context = `
 
 3) Доступные команды:
 
-На данный момент пользователю доступны 2 функции: создание карточек и обновление/перемещение карточек.
+На данный момент пользователю доступны 3 функции: создание карточек, обновление/перемещение карточек и удаление карточек.
+
+IMPORTANT: If the user doesn't provide you full information, e.g if the user doesn't provide the list name, you should ask the user for the missing information. If the user provides all the necessary information, you should proceed with the request.
 
 3.1) Создание карточек:
 

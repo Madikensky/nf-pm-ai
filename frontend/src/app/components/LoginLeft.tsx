@@ -5,6 +5,7 @@ import { FormEvent, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Loading from './Loading';
+import url from '../lib/url';
 
 export default function LoginLeft({
   setIsLoading,
@@ -36,14 +37,11 @@ export default function LoginLeft({
       const apiKey = trelloToken.trim();
       const apiToken = trelloAuth.trim();
 
-      const response = await axios.post(
-        'https://nf-pm-ai-production.up.railway.app/register',
-        {
-          email: userEmail,
-          trelloToken: apiKey,
-          authToken: apiToken,
-        }
-      );
+      const response = await axios.post(`${url}/register`, {
+        email: userEmail,
+        trelloToken: apiKey,
+        authToken: apiToken,
+      });
 
       localStorage.setItem('email', userEmail);
 
