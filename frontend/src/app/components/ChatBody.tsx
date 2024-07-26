@@ -4,6 +4,9 @@ import Markdown from 'react-markdown';
 import ChatContainer from './ChatContainer';
 import Image from 'next/image';
 import SideBar from './Sidebar';
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
 
 export default function ChatBody({
   chatHistory,
@@ -28,13 +31,14 @@ export default function ChatBody({
               className={message.role === 'assistant' ? 'ai' : 'user'}
               key={id}
             >
-              <Markdown
+              <div
                 className={`${
                   message.role === 'assistant' ? 'ai' : 'user'
                 }-prompt`}
+                dangerouslySetInnerHTML={{ __html: md.render(message.content) }}
               >
-                {message.content}
-              </Markdown>
+                {/* {message.content} */}
+              </div>
             </div>
           ))}
           {isWaitingAIResponse && (

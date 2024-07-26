@@ -103,8 +103,14 @@ app.post('/gemini', async (req: Request, res: Response) => {
       history.push({
         role: 'system',
 
-        content: `Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Извлекай из данных правильно id списков, досок, карточек для того чтобы делать разные махинации с ними. Данные представлены в следующем формате:\n\n"'
-          ${boards}, 'также, вот тебе предоставляется дата на данный момент: ${formattedDate}`,
+        content: `Тебе предоставляется JSON-файл с информацией о досках, списках и карточках Trello. Используй эти данные для ответа на вопросы и выполнения задач, связанных с Trello. Тщательно извлекай из данных id списков, досок и карточек на основе их названий. При необходимости проверь, что названия точно соответствуют переданным данным. Формат данных следующий:\n\n
+                  ${boards}\n\n
+                  Текущая дата: ${formattedDate}\n\n
+                  Примеры использования:
+                  - Найти id списка по названию: "Название списка"
+                  - Найти id карточки по названию: "Название карточки"
+                  - Найти id доски по названию: "Название доски"\n\n
+                  Убедись, что извлекаемые id соответствуют правильным названиям, чтобы избежать ошибок при выполнении задач.`,
       });
 
       const openai = new OpenAI({ apiKey: process.env.GPT_TOKEN });
@@ -134,20 +140,13 @@ app.post('/gemini', async (req: Request, res: Response) => {
         model: 'gpt-4o-mini',
       });
 
-      // console.log(json);
-
       if (json) {
         const data = JSON.parse(json);
 
-        // if (data.length === 1) {
-        //   console.log('был отправлен не массив объектов');
-        // }
-
         console.log('Parsed json', data);
-        // console.log(boards[0]);
 
         data.map((task: any) => {
-          console.log(task.params.addMembers);
+          // console.log(task.params.addMembers);
 
           const {
             name,
@@ -158,6 +157,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
             start,
             members,
             listId,
+            idBoard,
             cardId,
             addMembers,
             removeMembers,
@@ -173,6 +173,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
             cardId,
             key: apiKey,
             token: token,
+            idBoard,
             idMembers: addMembers
               ? addMembers
               : removeMembers
@@ -218,6 +219,36 @@ app.post('/gemini', async (req: Request, res: Response) => {
               })
               .then((e) => {
                 // console.log(e);
+                return e.data;
+              })
+              .catch((e) => console.log(e));
+          } else if (action === 'addList') {
+            axios
+              .post('https://api.trello.com/1/lists?', null, {
+                params: { ...queryParam, pos: 'bottom' },
+              })
+              .then((e) => {
+                // console.log(e);
+                return e.data;
+              })
+              .catch((e) => console.log(e));
+          } else if (action === 'deleteList') {
+            axios
+              .put(`https://api.trello.com/1/lists/${listId}/closed?`, null, {
+                params: { key: apiKey, token: token, value: true },
+              })
+              .then((e) => {
+                console.log('list deleted');
+                return e.data;
+              })
+              .catch((e) => console.log(e));
+          } else if (action === 'updateList') {
+            axios
+              .put(`https://api.trello.com/1/lists/${listId}`, null, {
+                params: queryParam,
+              })
+              .then((e) => {
+                console.log('list updated');
                 return e.data;
               })
               .catch((e) => console.log(e));

@@ -131,6 +131,66 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
   }
 ]
 
+3.4) Создание списков(колонок)
+
+Пример:
+
+Создай в доске "Table 1" колонки "Sprint-1", "Backlog".
+
+Ты сформируешь следующий объект:
+[
+  {
+    "action": "addList",
+    "params": {
+      "name": "Sprint-1",
+      "boardName": "Table 1"
+      "idBoard": 'id'
+    }
+  },
+  {
+    "action": "addList",
+    "params": {
+      "name": "Backlog",
+      "boardName": "Table 1"
+      "idBoard": 'id'
+    }
+  }
+]
+
+3.5) Архивирование списков(колонок)
+
+Пример:
+
+Удали(или архивируй) колонку "Sprint-1" в доске "Table 1".
+
+[
+  {
+    "action": "deleteList",
+    "params": {
+      "name": "Sprint-1",
+      "boardName": "Table 1"
+      "idBoard": 'id'
+    }
+  }
+]
+
+3.6) Обновление списков(колонок)
+
+Пример:
+
+Поменяй название у списка "Sprint-1" на "Sprint-2" в доске "Table 1".
+
+[
+  {
+    "action": "updateList",
+    "params": {
+      "name": "Sprint-2",
+      "boardName": "Table 1"
+      "idBoard": 'id'
+    }
+  }
+]
+
 `;
 
 export default context;
