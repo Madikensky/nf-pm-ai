@@ -89,10 +89,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
 
     const boards = await new BoardsInfo(apiKey, token).main();
 
-    // console.log('boards: \n', boards);
-
     const today = new Date();
-
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
@@ -117,7 +114,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
           ...history,
           { role: 'user', content: userPrompt },
         ],
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini',
         temperature: 0.5,
       });
 
@@ -140,7 +137,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
       if (json) {
         const data = JSON.parse(json);
 
-        console.log('Parsed json', data);
+        // console.log('Parsed json', data);
 
         data.map((task: any) => {
           // console.log(task.params.addMembers);
@@ -152,7 +149,6 @@ app.post('/gemini', async (req: Request, res: Response) => {
             boardName,
             due,
             start,
-            members,
             listId,
             idBoard,
             cardId,
@@ -166,6 +162,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
             desc,
             due,
             start,
+            listName,
             idList: listId,
             cardId,
             key: apiKey,
@@ -178,7 +175,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
               : undefined,
           };
 
-          console.log(queryParam);
+          console.log('QUERY PARAM:', queryParam);
 
           for (let key in queryParam) {
             if (!queryParam[key]) {
@@ -249,6 +246,36 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 return e.data;
               })
               .catch((e) => console.log(e));
+          } else if (action === 'addBoard') {
+            axios
+              .post('https://api.trello.com/1/boards', null, {
+                params: queryParam,
+              })
+              .then((e) => {
+                console.log('board added');
+                return e.data;
+              })
+              .catch((e) => console.log(e));
+          } else if (action === 'deleteBoard') {
+            axios
+              .delete(`https://api.trello.com/1/boards/${idBoard}`, {
+                params: { key: apiKey, token: token },
+              })
+              .then((e) => {
+                console.log('board deleted');
+                return e.data;
+              })
+              .catch((e) => console.log(e));
+          } else if (action === 'updateBoard') {
+            axios
+              .put(`https://api.trello.com/1/boards/${idBoard}`, null, {
+                params: queryParam,
+              })
+              .then((e) => {
+                console.log('board updated');
+                return e.data;
+              })
+              .catch((e) => console.log(e));
           }
 
           gptAnswer = handledAnswer.choices[0].message.content!;
@@ -256,7 +283,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
       } else {
         console.log('no json found');
       }
-      console.log(gptAnswer);
+      // console.log(gptAnswer);
       res.send(gptAnswer);
     } else {
       console.log('no boards found');

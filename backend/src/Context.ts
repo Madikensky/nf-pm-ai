@@ -40,7 +40,7 @@ const context = `
 
 3) Доступные команды:
 
-На данный момент пользователю доступны 6 функций: создание карточек, обновление/перемещение карточек, удаление карточек, создание списков, обновление списков, удаление списков.
+На данный момент пользователю доступны 9 функций: создание карточек, обновление/перемещение карточек, удаление карточек, создание списков, обновление списков, удаление списков, и такие же 3 функции с досками.
 
 IMPORTANT: If the user doesn't provide you full information, e.g if the user doesn't provide the list name, you should ask the user for the missing information. If the user provides all the necessary information, you should proceed with the request.
 
@@ -62,7 +62,7 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
       "boardName": "Table 1",
       "start": "08.08.2024",
       "due": "11.08.2024",
-      "members": ["Madiyar ID", "Di ID", "Sergey ID"]
+      "members": ["Madiyar ID", "Di ID", "Sergey ID"],
       "listId": 'id'
       "
     }
@@ -89,8 +89,8 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
       "boardName": "Table 1",
       "start": "10.08.2024",
       "due": "12.08.2024",
-      "addMembers": ["updated members id list"]
-      "cardId": 'id'
+      "addMembers": ["updated members id list"],
+      "cardId": 'id',
       "listId": 'id'
     }
   }
@@ -133,7 +133,7 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
     "params": {
       "name": "дейлик 05",
       "listName": "Дейлики",
-      "boardName": "Table 1"
+      "boardName": "Table 1",
       "cardId": 'id'
     }
   }
@@ -151,7 +151,7 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
     "action": "addList",
     "params": {
       "name": "Sprint-1",
-      "boardName": "Table 1"
+      "boardName": "Table 1",
       "idBoard": 'id'
     }
   },
@@ -159,7 +159,7 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
     "action": "addList",
     "params": {
       "name": "Backlog",
-      "boardName": "Table 1"
+      "boardName": "Table 1",
       "idBoard": 'id'
     }
   }
@@ -176,7 +176,7 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
     "action": "deleteList",
     "params": {
       "name": "Sprint-1",
-      "boardName": "Table 1"
+      "boardName": "Table 1",
       "idBoard": 'id'
     }
   }
@@ -193,7 +193,54 @@ IMPORTANT: If the user doesn't provide you full information, e.g if the user doe
     "action": "updateList",
     "params": {
       "name": "Sprint-2",
-      "boardName": "Table 1"
+      "boardName": "Table 1",
+      "idBoard": 'id'
+    }
+  }
+]
+
+3.7) Создание досок
+
+Пример:
+
+Создай доску "Table 1".
+
+[
+  {
+    "action": "addBoard",
+    "params": {
+      "name": "Table 1"
+    }
+  }
+]
+
+3.8) Удаление досок
+
+Пример:
+
+Удали доску "Table 1".
+
+[
+  {
+    "action": "deleteBoard",
+    "params": {
+      "name": "Table 1",
+      "idBoard": 'id'
+    }
+  }
+]
+
+3.9) Обновление досок
+
+Пример:
+
+Обнови название доски "Table 1" на "Table 2".
+
+[
+  {
+    "action": "updateBoard",
+    "params": {
+      "name": "Table 2",
       "idBoard": 'id'
     }
   }
