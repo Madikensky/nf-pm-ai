@@ -11,10 +11,12 @@ export default function LoginLeft({
   setIsLoading,
   error,
   setError,
+  setGlobalToken,
 }: {
   setIsLoading: (value: boolean) => void;
   error: string;
   setError: (value: string) => void;
+  setGlobalToken: (value: string) => void;
 }) {
   const [trelloToken, setTrelloToken] = useState('');
   const [trelloAuth, setTrelloAuth] = useState('');
@@ -72,7 +74,11 @@ export default function LoginLeft({
           учетную запись
         </p>
         <InputField tokenType="Email" setToken={setEmail} />
-        <InputField tokenType="Trello API Token" setToken={setTrelloToken} />
+        <InputField
+          tokenType="Trello API Token"
+          setToken={setTrelloToken}
+          setGlobalToken={setGlobalToken}
+        />
         <InputField tokenType="Trello Auth Token" setToken={setTrelloAuth} />
         {/* <input placeholder="Ваш email" /> */}
         <button className="text-white font-medium lg:text-smaller sm:text-sm bg-main-color p-2 lg:p-4 rounded-md w-full sm:w-1/2 lg:w-1/4">

@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [globalToken, setGlobalToken] = useState('');
   const router = useRouter();
   useEffect(() => {
     if (localStorage.getItem('email')) {
@@ -31,8 +32,9 @@ export default function Login() {
             setIsLoading={setIsLoading}
             error={error}
             setError={setError}
+            setGlobalToken={setGlobalToken}
           />
-          <LoginRight />
+          <LoginRight globalToken={globalToken} />
         </>
         {/* )} */}
       </div>

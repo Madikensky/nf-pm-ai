@@ -1,7 +1,7 @@
 import LoginRightHeading from './LoginRightHeading';
 import LoginRightSubHeading from './LoginRightSubHeading';
 
-export default function LoginRight() {
+export default function LoginRight({ globalToken }: { globalToken: string }) {
   return (
     <div className="login-right flex sm:w-1/2 w-full bg-gray-bg p-20 flex-col gap-10 mt-10">
       <div className="flex flex-col gap-5">
@@ -70,61 +70,34 @@ export default function LoginRight() {
             { content: 'Trello API Token. ', weight: '600' },
             { content: '<br>' },
             { content: '<br>' },
-            { content: 'Пример ключа: ' },
+            { content: 'Как должен выглядеть ключ: ' },
             {
               content: 'e1d25531ea4bc8e775d413013...',
               color: '',
               weight: '600',
             },
             { content: '<br>' },
-            { content: '<br>' },
-            {
-              content:
-                'Важно: в шаге ниже не перепутайте, создав "Секретный" ключ вместо Auth ключа.',
-            },
           ]}
         />
         <LoginRightSubHeading
           title="Шаг 5: Сгенерируйте Trello Auth Token"
-          image="/logRight.png"
+          link={globalToken}
           subtitle={[
-            // {
-            //   content:
-            //     'Важно: не перепутайте, создав "Секретный" ключ вместо Auth ключа.',
-            // },
-            // { content: '<br>' },
-            // { content: '<br>' },
+            { content: 'Перейдите на ссылку ' },
+            { content: 'auth', weight: '600' },
             {
-              content:
-                'Справа от поля с вашим API ключом будет небольшой текст, нажмите там на cинее слово ',
+              content: 'нажмите ',
             },
+            { content: 'Разрешить ', weight: '600' },
+            { content: 'или ' },
+            { content: 'Allow, ', weight: '600' },
+            { content: 'затем вставьте этот ключ в поле ' },
+            { content: 'Trello Auth Token.', weight: '600' },
 
-            {
-              content: 'token ',
-              weight: '600',
-            },
-            {
-              content: 'или ',
-            },
-            {
-              content: 'токен ',
-              weight: '600',
-            },
-            { content: 'и новом окне нажмите ' },
-            { content: 'allow. ', weight: '600' },
-            {
-              content: 'После этого вам дадут ',
-            },
-            {
-              content: 'Trello Auth Token ',
-              weight: '600',
-            },
-            {
-              content: 'который вы должны вставить во второе поле. ',
-            },
             { content: '<br>' },
             { content: '<br>' },
-            { content: 'Пример ключа: ' },
+
+            { content: 'Как должен выглядеть ключ: ' },
             {
               content: 'ATTA2d0b2b6ac542e52901bdab1e3a132caaba6700A3...',
               weight: '600',

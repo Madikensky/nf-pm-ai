@@ -5,12 +5,14 @@ interface RightSubheadingProps {
   title: string;
   subtitle: { content: string; color?: string; weight?: string }[];
   image?: string;
+  link?: string;
 }
 
 export default function LoginRightSubHeading({
   title,
   subtitle,
   image,
+  link,
 }: RightSubheadingProps) {
   return (
     <div className="flex flex-col gap-2 w-full break-words">
@@ -54,10 +56,21 @@ export default function LoginRightSubHeading({
                 </Link>
               }
             </span>
-          ) : str.content ===
-            'Важно: в шаге ниже не перепутайте, создав "Секретный" ключ вместо Auth ключа.' ? (
+          ) : str.content === 'Как должен выглядеть ключ: ' ? (
             <span key={idx} className="text-red-600 font-semibold text-base">
               {str.content}
+            </span>
+          ) : str.content === 'auth' ? (
+            <span key={idx} style={{ fontWeight: str.weight }}>
+              {
+                <Link
+                  href={`https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=${link}`}
+                  target="_blank"
+                  className="text-blue-600"
+                >
+                  Auth Token&nbsp;
+                </Link>
+              }
             </span>
           ) : (
             <span

@@ -3,11 +3,20 @@ import React, { useState } from 'react';
 interface InputFieldProps {
   tokenType: string;
   setToken: (token: string) => void;
+  setGlobalToken?: (token: string) => void;
 }
 
-export default function InputField({ tokenType, setToken }: InputFieldProps) {
+export default function InputField({
+  tokenType,
+  setToken,
+  setGlobalToken,
+}: InputFieldProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setToken(e.target.value);
+    if (setGlobalToken) {
+      setGlobalToken(e.target.value);
+      // console.log('f');
+    }
   };
 
   return (
