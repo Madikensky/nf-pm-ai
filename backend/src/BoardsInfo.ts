@@ -80,6 +80,20 @@ class BoardsInfo {
               listId: list.id,
               listName: list.name,
               listBoardId: list.idBoard,
+              cards: boardData.cards.map((card: any) => {
+                if (card.idList !== list.id) {
+                  return;
+                }
+                return {
+                  cardId: card.id,
+                  cardDescription: card.desc,
+                  cardDueDate: card.due,
+                  cardStartDate: card.start,
+                  cardListId: card.idList,
+                  cardName: card.name,
+                  cardMembers: card.idMembers,
+                };
+              }),
             };
           });
 
@@ -100,7 +114,7 @@ class BoardsInfo {
             boardName: boardData.name,
             members,
             lists,
-            cards,
+            // cards,
           };
         }
       );

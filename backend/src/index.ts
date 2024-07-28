@@ -97,6 +97,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const formattedDate = `Current date in MM.DD.YYYY format: ${month}.${day}.${year}`;
 
     if (boards) {
+      console.log(boards);
       history.push({
         role: 'system',
 
