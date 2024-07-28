@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import PromptTemplate from './PromptTemplate';
 import { useState, useEffect, useCallback } from 'react';
+import { useSidebar } from './SidebarProvider';
 
 export default function ChatPreview() {
   const useMediaQuery = (width: number) => {
@@ -29,9 +30,12 @@ export default function ChatPreview() {
   };
 
   const isBreakpoint = useMediaQuery(768);
+  const { sidebarOpen } = useSidebar();
 
   return (
-    <div className=" border-red-600 w-full h-full flex items-center justify-center flex-col gap-10 flex-wrap ">
+    <div
+      className={`border-red-600 w-full h-full flex justify-center items-center flex-col gap-10 flex-wrap`}
+    >
       <div>
         <Image
           src="./Component 1.svg"

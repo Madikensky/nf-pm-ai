@@ -97,12 +97,12 @@ app.post('/gemini', async (req: Request, res: Response) => {
     const formattedDate = `Current date in MM.DD.YYYY format: ${month}.${day}.${year}`;
 
     if (boards) {
-      console.log(boards);
+      // console.log(boards);
       history.push({
         role: 'system',
 
         content: `Тебе предоставляется JSON-файл с актуальной информацией о досках, списках и карточках Trello. Ты должен находить названия объектов которые предоставляет пользователь и находить по названиям их идентификаторы в этом json файле. Формат данных следующий:\n\n
-        Например, если пользователь напишет: создай 3 карточки "таск1", "task2", "task3" в списке "To Do" на доске "My Board", ты ищешь в JSON файле listId списка "To Do" и возвращаешь его для дальнейшей обработки в бэкенде.\n\n
+        \n\n
                   ${boards}\n\n
                   Текущая дата: ${formattedDate}\n\n
                   `,
@@ -134,6 +134,8 @@ app.post('/gemini', async (req: Request, res: Response) => {
         ],
         model: 'gpt-4o-mini',
       });
+
+      // console.log('checkin:', json);
 
       if (json) {
         const data = JSON.parse(json);
@@ -286,6 +288,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
       }
       // console.log(gptAnswer);
       res.send(gptAnswer);
+      // res.send(boards);
     } else {
       console.log('no boards found');
     }

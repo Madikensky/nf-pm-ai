@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import './globals.css';
+import { SidebarProvider } from './components/SidebarProvider';
 
 const inter = Manrope({ weight: '400', subsets: ['latin'] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <SidebarProvider>
+        <body className={inter.className}>{children}</body>
+      </SidebarProvider>
     </html>
   );
 }

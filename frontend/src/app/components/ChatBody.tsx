@@ -5,6 +5,7 @@ import ChatContainer from './ChatContainer';
 import Image from 'next/image';
 import SideBar from './Sidebar';
 import MarkdownIt from 'markdown-it';
+import { useSidebar } from './SidebarProvider';
 
 const md = new MarkdownIt();
 
@@ -17,12 +18,19 @@ export default function ChatBody({
 }: any) {
   const [isBoardsOpen, setIsBoardsOpen] = useState(false);
 
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
+
   useEffect(() => {
     // console.log(chatHistory);
-  }, [chatHistory]);
+    console.log(sidebarOpen);
+  }, [chatHistory, sidebarOpen]);
 
   return (
-    <div className=" border-blue-600 flex-1 flex items-center justify-center px-4">
+    <div
+      className={`border-blue-600 flex-1 flex items-center ${
+        sidebarOpen ? 'justify-start' : 'justify-center'
+      }  px-4`}
+    >
       {!isStarted && <ChatPreview />}
       {isStarted && (
         <ChatContainer>

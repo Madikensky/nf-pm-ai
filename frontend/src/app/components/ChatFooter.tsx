@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import url from '../lib/url';
+import { useSidebar } from './SidebarProvider';
 // import backendApiInstance from '@/lib/api';
 
 export default function ChatFooter({
@@ -13,6 +14,7 @@ export default function ChatFooter({
 }: any) {
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
+  const { sidebarOpen } = useSidebar();
 
   const [chatHistory, setLocalChatHistory] = useState<
     {
@@ -144,7 +146,11 @@ export default function ChatFooter({
   };
 
   return (
-    <div className=" border-green-600 flex items-center justify-center px-4 pb-6">
+    <div
+      className={`border-green-600 flex items-center ${
+        sidebarOpen ? 'justify-start' : 'justify-center'
+      } px-4 pb-6`}
+    >
       <form
         className=" border-main-color  w-full rounded-xl flex flex-row p-2 gap-2 lg:w-3/4 bg-gray-200"
         onSubmit={(e) => {

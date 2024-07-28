@@ -3,9 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import Loading from './Loading';
 import axios from 'axios';
 import url from '../lib/url';
+import { useSidebar } from './SidebarProvider';
 
 export default function SideBar({ isOpen, setIsOpen }: any) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  // const sidebarStatus = useSidebar();
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
 
   const [boards, setBoards] = useState<any[]>([]);
   const [openIframe, setOpenIframe] = useState(false);
@@ -75,6 +78,7 @@ export default function SideBar({ isOpen, setIsOpen }: any) {
           onClick={() => {
             setIsOpen(false);
             setOpenIframe(false);
+            setSidebarOpen(false);
           }}
         />
       </div>

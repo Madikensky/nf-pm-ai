@@ -61,7 +61,7 @@ class BoardsInfo {
       // Fetch all board details in one go
       const boardDetailsUrls = boards.map(
         (boardId) =>
-          `https://api.trello.com/1/boards/${boardId}?key=${this.apiKey}&token=${this.token}&lists=open&members=all&cards=all`
+          `https://api.trello.com/1/boards/${boardId}?key=${this.apiKey}&token=${this.token}&lists=open&members=all&cards=visible`
       );
       const boardsData = await this.fetchAllData(boardDetailsUrls);
 
@@ -75,37 +75,27 @@ class BoardsInfo {
           });
 
           const lists = boardData.lists.map((list: any) => {
-            // console.log(list);
+            // console.log(boardData.id);
             return {
               listId: list.id,
               listName: list.name,
               listBoardId: list.idBoard,
-              cards: boardData.cards.map((card: any) => {
-                if (card.idList !== list.id) {
-                  return;
-                }
-                return {
-                  cardId: card.id,
-                  cardDescription: card.desc,
-                  cardDueDate: card.due,
-                  cardStartDate: card.start,
-                  cardListId: card.idList,
-                  cardName: card.name,
-                  cardMembers: card.idMembers,
-                };
-              }),
-            };
-          });
-
-          const cards = boardData.cards.map((card: any) => {
-            return {
-              cardId: card.id,
-              cardDescription: card.desc,
-              cardDueDate: card.due,
-              cardStartDate: card.start,
-              cardListId: card.idList,
-              cardName: card.name,
-              cardMembers: card.idMembers,
+              listBoardName: boardData.name,
+              cards: boardData.cards
+                .map((card: any) => {
+                  if (card.idList === list.id) {
+                    return {
+                      cardId: card.id,
+                      cardDescription: card.desc,
+                      cardDueDate: card.due,
+                      cardStartDate: card.start,
+                      cardListId: card.idList,
+                      cardName: card.name,
+                      cardMembers: card.idMembers,
+                    };
+                  }
+                })
+                .filter((card: any) => card !== undefined),
             };
           });
 
@@ -129,6 +119,7 @@ class BoardsInfo {
   async main() {
     try {
       const boardsInfo = await this.getBoardsInfo();
+      // console.log(JSON.stringify(boardsInfo, null, 2));
       return JSON.stringify(boardsInfo, null, 2);
     } catch (err) {
       console.error('Main function error:', err);

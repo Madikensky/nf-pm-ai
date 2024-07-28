@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import SideBar from './Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSidebar } from './SidebarProvider';
 
 interface LoginProps {
   showLogin: boolean;
@@ -23,6 +24,8 @@ LoginProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileClicked, setIsProfileClicked] = useState(false);
   const router = useRouter();
+
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
 
   return (
     <header
@@ -57,7 +60,10 @@ LoginProps) {
         <div className="flex flex-row gap-5">
           <span
             className="flex flex-row items-center justify-center text-white cursor-pointer gap-1"
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true);
+              setSidebarOpen(true);
+            }}
           >
             <span className="text-xs sm:text-sm md:text-lg">Мои доски</span>
             <Image
