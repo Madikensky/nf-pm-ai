@@ -38,7 +38,7 @@ class BoardsInfo {
   }
 
   private async getBoardData(url: string) {
-    await this.delay(500); // Reduce delay to half a second
+    await this.delay(0); // Reduce delay to half a second
     const response = await axios.get(url);
     return response.data;
   }
@@ -57,6 +57,7 @@ class BoardsInfo {
       );
 
       const boards = memberData.idBoards;
+      // console.log(boards);
 
       // Fetch all board details in one go
       const boardDetailsUrls = boards.map(
@@ -111,7 +112,7 @@ class BoardsInfo {
       // console.log(boardsWithDetails);
       return boardsWithDetails;
     } catch (err) {
-      console.error('Error fetching board info:', err);
+      console.error('Error fetching board info in BoardsInfo.ts file');
       throw err;
     }
   }
@@ -122,7 +123,7 @@ class BoardsInfo {
       // console.log(JSON.stringify(boardsInfo, null, 2));
       return JSON.stringify(boardsInfo, null, 2);
     } catch (err) {
-      console.error('Main function error:', err);
+      console.error('Main function error in BoardsInfo.ts file');
     }
   }
 }

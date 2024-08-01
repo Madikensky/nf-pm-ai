@@ -7,10 +7,13 @@ import OpenAI from 'openai';
 import context from './Context';
 import connectDB from './db';
 import { getTokens, User } from './auth';
-
-import * as bcrypt from 'bcryptjs';
+import multer from 'multer';
+import FormData from 'form-data';
+import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
+
+const upload = multer();
 
 config();
 
@@ -83,21 +86,55 @@ app.post('/get-tokens', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/audio-prompt', upload.single('audio'), async (req, res) => {
+  try {
+    if (req.file?.buffer === undefined) {
+      return res.status(400).send('No audio file uploaded');
+    }
+    const fileBuffer = req.file.buffer;
+    const formData = new FormData();
+    formData.append('file', fileBuffer, {
+      filename: 'audio.wav',
+      contentType: 'audio/wav',
+    });
+    formData.append('model', 'whisper-1');
+
+    const response = await axios.post(
+      'https://api.openai.com/v1/audio/transcriptions',
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GPT_TOKEN}`,
+          ...formData.getHeaders(),
+        },
+        responseType: 'json',
+      }
+    );
+    const userPrompt = response.data.text;
+    console.log(userPrompt);
+    res.json({ transcription: response.data.text });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error transcribing audio');
+  }
+});
+
 app.post('/gemini', async (req: Request, res: Response) => {
   try {
     const { userPrompt, apiKey, token, history } = req.body;
 
-    const boards = await new BoardsInfo(apiKey, token).main();
+    console.log(history);
+
+    let boards = await new BoardsInfo(apiKey, token).main();
 
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
 
-    const formattedDate = `Current date in MM.DD.YYYY format: ${month}.${day}.${year}`;
+    const formattedDate = `в MM.DD.YYYY формате: ${month}.${day}.${year}`;
 
     if (boards) {
-      // console.log(boards);
       history.push({
         role: 'system',
 
@@ -116,7 +153,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
           { role: 'user', content: userPrompt },
         ],
         model: 'gpt-4o',
-        temperature: 0.5,
+        temperature: 0.7,
       });
 
       let gptAnswer = completion.choices[0].message.content!;
@@ -135,16 +172,10 @@ app.post('/gemini', async (req: Request, res: Response) => {
         model: 'gpt-4o-mini',
       });
 
-      // console.log('checkin:', json);
-
       if (json) {
         const data = JSON.parse(json);
 
-        // console.log('Parsed json', data);
-
         data.map((task: any) => {
-          // console.log(task.params.addMembers);
-
           const {
             name,
             desc,
@@ -178,8 +209,6 @@ app.post('/gemini', async (req: Request, res: Response) => {
               : undefined,
           };
 
-          console.log('QUERY PARAM:', queryParam);
-
           for (let key in queryParam) {
             if (!queryParam[key]) {
               delete queryParam[key];
@@ -192,7 +221,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
                 params: queryParam,
               })
               .then((e) => {
-                // console.log(e.data);
+                console.log('card added');
                 // console.log('dfg');
                 return e.data;
               })
@@ -281,14 +310,27 @@ app.post('/gemini', async (req: Request, res: Response) => {
               .catch((e) => console.log(e));
           }
 
+          // boards = 'нету досок';
+
+          // history.push({
+          //   role: 'user',
+
+          //   content: `Тебе предоставляется обновленный после запроса JSON-файл с актуальной информацией о досках, списках и карточках Trello. Ты должен находить названия объектов которые предоставляет пользователь и находить по названиям их идентификаторы в этом json файле. Формат данных следующий:\n\n
+          //   \n\n
+          //             ${boards}\n\n
+          //             Текущая дата: ${formattedDate}\n\n
+          //             `,
+          // });
+
+          console.log(history);
+
           gptAnswer = handledAnswer.choices[0].message.content!;
         });
       } else {
+        console.log(json);
         console.log('no json found');
       }
-      // console.log(gptAnswer);
       res.send(gptAnswer);
-      // res.send(boards);
     } else {
       console.log('no boards found');
     }

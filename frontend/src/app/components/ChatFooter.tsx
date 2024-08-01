@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import url from '../lib/url';
 import { useSidebar } from './SidebarProvider';
+import AudioRecorder from './AudioRecorder';
 // import backendApiInstance from '@/lib/api';
 
 export default function ChatFooter({
@@ -15,7 +16,6 @@ export default function ChatFooter({
   const [isConversationStarted, setIsConversationStarted] = useState(false);
   const [userInput, setLocalUserInput] = useState('');
   const { sidebarOpen } = useSidebar();
-
   const [chatHistory, setLocalChatHistory] = useState<
     {
       role: string;
@@ -23,11 +23,16 @@ export default function ChatFooter({
     }[]
   >([]);
 
+  useEffect(() => {
+    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+    if (userInput.trim().length > 0 && userInput !== 'Обработка аудио...') {
+      setIsConversationStarted(true);
+    }
+  }, [chatHistory, userInput]);
+
   const getGeminiResponse = async () => {
     try {
       const email = localStorage.getItem('email');
-      // setIsWaitingAIResponse(true);
-
       try {
         axios
           .post(`${url}/get-tokens`, {
@@ -39,6 +44,8 @@ export default function ChatFooter({
 
             const savedTrelloToken = trelloToken;
             const savedTrelloAuth = trelloAuth;
+
+            // const userVoiceInput = localStorage.getItem('userVoiceInput');
 
             const requestToGPT = async () => {
               const response = await axios
@@ -75,6 +82,7 @@ export default function ChatFooter({
               const boards = updateBoards.data;
 
               localStorage.setItem('trelloBoards', JSON.stringify(boards));
+              localStorage.removeItem('userVoiceInput');
 
               setError('');
             };
@@ -104,25 +112,22 @@ export default function ChatFooter({
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.trim().length > 0 && !isWaitingAIResponse) {
+    if (e.target.value.trim().length > 0) {
       setIsConversationStarted(true);
     } else {
       setIsConversationStarted(false);
     }
     setLocalUserInput(e.target.value);
-    // console.log(e.target.value.trim());
   };
 
   const handleSubmit = () => {
-    if (!isConversationStarted) {
+    if (isWaitingAIResponse || !isConversationStarted) {
       return;
     }
 
     setChatHistory((prevHistory: any) => [
       ...prevHistory,
       {
-        // role: 'user',
-        // parts: [{ text: userInput }],
         role: 'user',
         content: userInput,
       },
@@ -131,8 +136,6 @@ export default function ChatFooter({
     setLocalChatHistory((prevHistory: any) => [
       ...prevHistory,
       {
-        // role: 'user',
-        // parts: [{ text: userInput }],
         role: 'user',
         content: userInput,
       },
@@ -167,29 +170,33 @@ export default function ChatFooter({
           rows={1}
           onChange={handleInput}
         ></textarea>
-        <button
-          type="submit"
-          className={`flex border-red-600 min-w-14 items-center justify-end ${
-            isConversationStarted ? 'cursor-pointer' : 'cursor-no-drop'
-          }`}
-          disabled={!isConversationStarted && isWaitingAIResponse}
-        >
-          <div
-            className={`border-blue-600  w-7 h-7 rounded-full flex items-center justify-center ${
-              isConversationStarted ? 'bg-main-color' : 'bg-gray-color'
-            } flex items-center justify-center`}
+
+        {isConversationStarted ? (
+          <button
+            type="submit"
+            className={`flex border-red-600 min-w-10 items-center justify-end`}
+            disabled={!isConversationStarted && isWaitingAIResponse}
           >
-            <Image
-              src="/up.png"
-              width={20}
-              height={20}
-              alt="send"
-              className=""
-            />
-          </div>
-        </button>
+            <div
+              className={`border-blue-600  w-9 h-9 rounded-full flex items-center justify-center ${
+                isConversationStarted ? 'bg-main-color' : 'bg-gray-color'
+              } flex items-center justify-center`}
+            >
+              <Image
+                src="/up.png"
+                width={20}
+                height={20}
+                alt="send"
+                className={`${
+                  isConversationStarted ? 'cursor-pointer' : 'cursor-no-drop'
+                }`}
+              />
+            </div>
+          </button>
+        ) : (
+          <AudioRecorder setUserInput={setLocalUserInput} />
+        )}
       </form>
-      {/* {error && <p className="text-red-600">{error}</p>} */}
     </div>
   );
 }
