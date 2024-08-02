@@ -290,7 +290,7 @@ header {
 }
 
 .recording {
-  background-color: #242D3C; /* Красный цвет во время записи */
+  background-color: green; /* Красный цвет во время записи */
   animation: pulse 1s infinite; /* Анимация */
 }
 
