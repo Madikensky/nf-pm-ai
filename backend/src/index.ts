@@ -197,6 +197,7 @@ app.post('/gemini', async (req: Request, res: Response) => {
             due,
             start,
             listName,
+            pos: 'bottom',
             idList: listId,
             cardId,
             key: apiKey,

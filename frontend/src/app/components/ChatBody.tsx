@@ -27,7 +27,7 @@ export default function ChatBody({
 
   return (
     <div
-      className={`border-blue-600 flex-1 flex items-center ${
+      className={`border-blue-600 py-4 flex-1 flex items-center ${
         sidebarOpen ? 'justify-start' : 'justify-center'
       }  px-4`}
     >
